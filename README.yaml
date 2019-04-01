@@ -62,13 +62,32 @@ usage: |-
 
   **IMPORTANT:** Do not pin to `master` because there may be breaking changes between releases. Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-aws-documentdb-cluster/releases).
 
-  [Basic example](examples/basic)
+  [Complete example](examples/complete)
 
   ```hcl
   module "documentdb_cluster" {
-    source          = "git::https://github.com/cloudposse/terraform-aws-documentdb-cluster.git?ref=master"
+    source                  = "git::https://github.com/cloudposse/terraform-aws-documentdb-cluster.git?ref=master"
+    namespace               = "eg"
+    stage                   = "testing"
+    name                    = "docdb"
+    cluster_size            = "2"
+    admin_user              = "admin1"
+    admin_password          = "Test123456789"
+    instance_class          = "db.r4.large"
+    vpc_id                  = "vpc-xxxxxxxx"
+    subnet_ids              = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+    allowed_security_groups = ["sg-xxxxxxxx"]
+    zone_id                 = "Zxxxxxxxx"
   }
   ```
+
+references:
+  - name: db-instance-class-specs
+    description: Amazon DocumentDB Instance Class Specifications
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs
+  - name: db-cluster-parameter-group-create
+    description: Creating an Amazon DocumentDB Cluster Parameter Group
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
 
 # Example usage
 #examples: |-
