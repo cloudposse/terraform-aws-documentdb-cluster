@@ -25,7 +25,7 @@ module "vpc" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  availability_zones = "${slice(data.aws_availability_zones.available.names, 0, 2)}"
+  availability_zones = "${slice(data.aws_availability_zones.available.names, 0, 3)}"
 }
 
 module "subnets" {
@@ -46,7 +46,7 @@ module "documentdb_cluster" {
   namespace         = "${var.namespace}"
   stage             = "${var.stage}"
   name              = "${var.name}"
-  cluster_size      = "2"
+  cluster_size      = "${length(local.availability_zones)}"
   master_username   = "admin1"
   master_password   = "Test123456789"
   instance_class    = "db.r4.large"
