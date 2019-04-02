@@ -1,9 +1,4 @@
-output "name" {
-  value       = "${join("", aws_docdb_cluster.default.*.database_name)}"
-  description = "Database name"
-}
-
-output "user" {
+output "master_username" {
   value       = "${join("", aws_docdb_cluster.default.*.master_username)}"
   description = "Username for the master DB user"
 }

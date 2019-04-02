@@ -42,8 +42,8 @@ module "documentdb_cluster" {
   stage             = "${var.stage}"
   name              = "${var.name}"
   cluster_size      = "2"
-  admin_user        = "admin1"
-  admin_password    = "Test123456789"
+  master_username   = "admin1"
+  master_password   = "Test123456789"
   instance_class    = "db.r4.large"
   db_port           = 27017
   vpc_id            = "${module.vpc.vpc_id}"

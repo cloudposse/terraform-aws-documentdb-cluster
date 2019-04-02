@@ -1,10 +1,5 @@
-output "name" {
-  value       = "${module.documentdb_cluster.name}"
-  description = "Database name"
-}
-
-output "user" {
-  value       = "${module.documentdb_cluster.user}"
+output "master_username" {
+  value       = "${module.documentdb_cluster.master_username}"
   description = "Username for the master DB user"
 }
 

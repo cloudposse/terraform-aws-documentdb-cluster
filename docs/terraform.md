@@ -2,8 +2,6 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin_password | (Required unless a snapshot_identifier is provided) Password for the master DB user | string | `` | no |
-| admin_user | (Required unless a snapshot_identifier is provided) Username for the master DB user | string | `admin` | no |
 | allowed_cidr_blocks | List of CIDR blocks to be allowed to connect to the DocumentDB cluster | list | `<list>` | no |
 | allowed_security_groups | List of existing Security Groups to be allowed to connect to the DocumentDB cluster | list | `<list>` | no |
 | apply_immediately | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window | string | `true` | no |
@@ -19,6 +17,8 @@
 | engine_version | The version number of the database engine to use | string | `` | no |
 | instance_class | The instance class to use. For more details, see https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs | string | `db.r4.large` | no |
 | kms_key_id | The ARN for the KMS encryption key. When specifying `kms_key_id`, `storage_encrypted` needs to be set to `true` | string | `` | no |
+| master_password | (Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints | string | `` | no |
+| master_username | (Required unless a snapshot_identifier is provided) Username for the master DB user | string | `admin1` | no |
 | name | Name of the application | string | - | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | string | - | yes |
 | preferred_backup_window | Daily time range during which the backups happen | string | `07:00-09:00` | no |
@@ -40,11 +40,10 @@
 | cluster_name | Cluster Identifier |
 | endpoint | The DNS address of the RDS instance |
 | master_host | DB Master hostname |
-| name | Database name |
+| master_username | Username for the master DB user |
 | reader_endpoint | A read-only endpoint for the DocumentDB cluster, automatically load-balanced across replicas |
 | replicas_host | Replicas hostname |
 | security_group_arn | ARN of the DocumentDB cluster Security Group |
 | security_group_id | ID of the DocumentDB cluster Security Group |
 | security_group_name | Name of the DocumentDB cluster Security Group |
-| user | Username for the master DB user |
 

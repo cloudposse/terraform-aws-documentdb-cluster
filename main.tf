@@ -53,8 +53,8 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
 resource "aws_docdb_cluster" "default" {
   count                           = "${var.enabled == "true" ? 1 : 0}"
   cluster_identifier              = "${module.label.id}"
-  master_username                 = "${var.admin_user}"
-  master_password                 = "${var.admin_password}"
+  master_username                 = "${var.master_username}"
+  master_password                 = "${var.master_password}"
   backup_retention_period         = "${var.retention_period}"
   preferred_backup_window         = "${var.preferred_backup_window}"
   final_snapshot_identifier       = "${lower(module.label.id)}"
@@ -73,16 +73,13 @@ resource "aws_docdb_cluster" "default" {
 }
 
 resource "aws_docdb_cluster_instance" "default" {
-  count                   = "${var.enabled == "true" ? var.cluster_size : 0}"
-  identifier              = "${module.label.id}-${count.index+1}"
-  cluster_identifier      = "${join("", aws_docdb_cluster.default.*.id)}"
-  apply_immediately       = "${var.apply_immediately}"
-  instance_class          = "${var.instance_class}"
-  db_subnet_group_name    = "${aws_docdb_subnet_group.default.name}"
-  tags                    = "${module.label.tags}"
-  engine                  = "${var.engine}"
-  engine_version          = "${var.engine_version}"
-  preferred_backup_window = "${var.preferred_backup_window}"
+  count              = "${var.enabled == "true" ? var.cluster_size : 0}"
+  identifier         = "${module.label.id}-${count.index+1}"
+  cluster_identifier = "${join("", aws_docdb_cluster.default.*.id)}"
+  apply_immediately  = "${var.apply_immediately}"
+  instance_class     = "${var.instance_class}"
+  tags               = "${module.label.tags}"
+  engine             = "${var.engine}"
 }
 
 resource "aws_docdb_subnet_group" "default" {

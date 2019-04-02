@@ -82,12 +82,30 @@ usage: |-
   ```
 
 references:
+  - name: db-cluster-create
+    description: Creating an Amazon DocumentDB Cluster
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-create.html
   - name: db-instance-class-specs
     description: Amazon DocumentDB Instance Class Specifications
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs
   - name: db-cluster-parameter-group-create
     description: Creating an Amazon DocumentDB Cluster Parameter Group
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
+  - name: limits
+    description: Amazon DocumentDB Limits
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html
+  - name: documentdb-arns
+    description: Understanding Amazon DocumentDB Amazon Resource Names (ARNs)
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/documentdb-arns.html
+  - name: db-cluster-parameters
+    description: Amazon DocumentDB Parameters
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameters.html
+  - name: tagging
+    description: Tagging Amazon DocumentDB Resources
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/tagging.html
+  - name: faqs
+    description: Amazon DocumentDB (with MongoDB compatibility) FAQs
+    url: https://aws.amazon.com/documentdb/faqs/
 
 # Example usage
 #examples: |-

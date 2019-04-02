@@ -88,16 +88,16 @@ variable "db_port" {
   description = "DocumentDB port"
 }
 
-variable "admin_user" {
+variable "master_username" {
   type        = "string"
-  default     = "admin"
+  default     = "admin1"
   description = "(Required unless a snapshot_identifier is provided) Username for the master DB user"
 }
 
-variable "admin_password" {
+variable "master_password" {
   type        = "string"
   default     = ""
-  description = "(Required unless a snapshot_identifier is provided) Password for the master DB user"
+  description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints"
 }
 
 variable "retention_period" {
