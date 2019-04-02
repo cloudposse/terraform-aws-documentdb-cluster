@@ -1,9 +1,14 @@
-# https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs
-# https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
-# https://www.terraform.io/docs/providers/aws/r/docdb_cluster.html
-# https://www.terraform.io/docs/providers/aws/r/docdb_cluster_instance.html
-# https://www.terraform.io/docs/providers/aws/r/docdb_cluster_parameter_group.html
-# https://www.terraform.io/docs/providers/aws/r/docdb_subnet_group.html
+/*
+Useful references:
+
+https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs
+https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
+https://www.terraform.io/docs/providers/aws/r/docdb_cluster.html
+https://www.terraform.io/docs/providers/aws/r/docdb_cluster_instance.html
+https://www.terraform.io/docs/providers/aws/r/docdb_cluster_parameter_group.html
+https://www.terraform.io/docs/providers/aws/r/docdb_subnet_group.html
+https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html
+*/
 
 provider "aws" {
   region = "${var.region}"

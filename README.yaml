@@ -106,6 +106,9 @@ references:
   - name: faqs
     description: Amazon DocumentDB (with MongoDB compatibility) FAQs
     url: https://aws.amazon.com/documentdb/faqs/
+  - name: troubleshooting
+    description: Troubleshooting Amazon DocumentDB
+    url: https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html
 
 # Example usage
 #examples: |-

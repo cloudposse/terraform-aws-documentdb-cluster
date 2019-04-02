@@ -161,6 +161,7 @@ For additional context, refer to some of these links.
 - [db-cluster-parameters](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameters.html) - Amazon DocumentDB Parameters
 - [tagging](https://docs.aws.amazon.com/documentdb/latest/developerguide/tagging.html) - Tagging Amazon DocumentDB Resources
 - [faqs](https://aws.amazon.com/documentdb/faqs/) - Amazon DocumentDB (with MongoDB compatibility) FAQs
+- [troubleshooting](https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html) - Troubleshooting Amazon DocumentDB
 
 
 ## Help
