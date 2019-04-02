@@ -45,7 +45,7 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 
 **IMPORTANT:** Do not pin to `master` because there may be breaking changes between releases. Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-aws-documentdb-cluster/releases).
 
-[Complete example](examples/complete)
+For a complete example, see [examples/complete](examples/complete)
 
 ```hcl
 module "documentdb_cluster" {
@@ -58,7 +58,7 @@ module "documentdb_cluster" {
   admin_password          = "Test123456789"
   instance_class          = "db.r4.large"
   vpc_id                  = "vpc-xxxxxxxx"
-  subnet_ids              = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+  subnet_ids              = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
   allowed_security_groups = ["sg-xxxxxxxx"]
   zone_id                 = "Zxxxxxxxx"
 }
