@@ -10,27 +10,27 @@ output "cluster_name" {
 
 output "arn" {
   value       = "${join("", aws_docdb_cluster.default.*.arn)}"
-  description = "Amazon Resource Name (ARN) of cluster"
+  description = "Amazon Resource Name (ARN) of the cluster"
 }
 
 output "endpoint" {
   value       = "${join("", aws_docdb_cluster.default.*.endpoint)}"
-  description = "The DNS address of the RDS instance"
+  description = "Endpoint of the DocumentDB cluster"
 }
 
 output "reader_endpoint" {
   value       = "${join("", aws_docdb_cluster.default.*.reader_endpoint)}"
-  description = "A read-only endpoint for the DocumentDB cluster, automatically load-balanced across replicas"
+  description = "A read-only endpoint of the DocumentDB cluster, automatically load-balanced across replicas"
 }
 
 output "master_host" {
   value       = "${module.dns_master.hostname}"
-  description = "DB Master hostname"
+  description = "DB master hostname"
 }
 
 output "replicas_host" {
   value       = "${module.dns_replicas.hostname}"
-  description = "Replicas hostname"
+  description = "DB replicas hostname"
 }
 
 output "security_group_id" {

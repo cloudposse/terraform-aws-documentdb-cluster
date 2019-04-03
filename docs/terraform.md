@@ -36,13 +36,13 @@
 
 | Name | Description |
 |------|-------------|
-| arn | Amazon Resource Name (ARN) of cluster |
+| arn | Amazon Resource Name (ARN) of the cluster |
 | cluster_name | Cluster Identifier |
-| endpoint | The DNS address of the RDS instance |
-| master_host | DB Master hostname |
+| endpoint | Endpoint of the DocumentDB cluster |
+| master_host | DB master hostname |
 | master_username | Username for the master DB user |
-| reader_endpoint | A read-only endpoint for the DocumentDB cluster, automatically load-balanced across replicas |
-| replicas_host | Replicas hostname |
+| reader_endpoint | A read-only endpoint of the DocumentDB cluster, automatically load-balanced across replicas |
+| replicas_host | DB replicas hostname |
 | security_group_arn | ARN of the DocumentDB cluster Security Group |
 | security_group_id | ID of the DocumentDB cluster Security Group |
 | security_group_name | Name of the DocumentDB cluster Security Group |
