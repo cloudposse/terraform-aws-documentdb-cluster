@@ -137,21 +137,25 @@ variable "engine_version" {
 }
 
 variable "storage_encrypted" {
-  description = "Specifies whether the DB cluster is encrypted. The default is `false` for `provisioned` `engine_mode` and `true` for `serverless` `engine_mode`"
+  type        = "string"
+  description = "Specifies whether the DB cluster is encrypted"
   default     = "true"
 }
 
 variable "kms_key_id" {
+  type        = "string"
   description = "The ARN for the KMS encryption key. When specifying `kms_key_id`, `storage_encrypted` needs to be set to `true`"
   default     = ""
 }
 
 variable "skip_final_snapshot" {
+  type        = "string"
   description = "Determines whether a final DB snapshot is created before the DB cluster is deleted"
   default     = "true"
 }
 
 variable "apply_immediately" {
+  type        = "string"
   description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window"
   default     = "true"
 }
