@@ -160,7 +160,7 @@ For additional context, refer to some of these links.
 - [Understanding Amazon DocumentDB Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/documentdb/latest/developerguide/documentdb-arns.html) - describes ARN formats for DocumentDB resources
 - [Amazon DocumentDB Parameters](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameters.html) - lists all the parameters that are specific to a DocumentDB cluster
 - [Tagging Amazon DocumentDB Resources](https://docs.aws.amazon.com/documentdb/latest/developerguide/tagging.html) - describes how to use tags to add metadata to DocumentDB resources
-- [Amazon DocumentDB FAQs](https://aws.amazon.com/documentdb/faqs/) - Amazon DocumentDB FAQs - DocumentDB frequently asked questions
+- [Amazon DocumentDB FAQs](https://aws.amazon.com/documentdb/faqs/) - DocumentDB frequently asked questions
 - [Troubleshooting Amazon DocumentDB](https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html) - provides information about how to troubleshoot problems that you might encounter when using Amazon DocumentDB
 
 

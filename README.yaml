@@ -104,7 +104,7 @@ references:
     description: describes how to use tags to add metadata to DocumentDB resources
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/tagging.html
   - name: Amazon DocumentDB FAQs
-    description: Amazon DocumentDB FAQs - DocumentDB frequently asked questions
+    description: DocumentDB frequently asked questions
     url: https://aws.amazon.com/documentdb/faqs/
   - name: Troubleshooting Amazon DocumentDB
     description: provides information about how to troubleshoot problems that you might encounter when using Amazon DocumentDB
