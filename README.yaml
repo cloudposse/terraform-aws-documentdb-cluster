@@ -82,32 +82,32 @@ usage: |-
   ```
 
 references:
-  - name: db-cluster-create
-    description: Creating an Amazon DocumentDB Cluster
+  - name: Creating an Amazon DocumentDB Cluster
+    description: official AWS documentation on how to create a DocumentDB cluster
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-create.html
-  - name: db-instance-class-specs
-    description: Amazon DocumentDB Instance Class Specifications
+  - name: Amazon DocumentDB Instance Class Specifications
+    description: provides details of the Amazon DocumentDB instance classes
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs
-  - name: db-cluster-parameter-group-create
-    description: Creating an Amazon DocumentDB Cluster Parameter Group
+  - name: Creating an Amazon DocumentDB Cluster Parameter Group
+    description: official AWS documentation on how to create an Amazon DocumentDB Cluster Parameter Group
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
-  - name: limits
-    description: Amazon DocumentDB Limits
+  - name: Amazon DocumentDB Limits
+    description: describes the resource limits and naming constraints for Amazon DocumentDB
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html
-  - name: documentdb-arns
-    description: Understanding Amazon DocumentDB Amazon Resource Names (ARNs)
+  - name: Understanding Amazon DocumentDB Amazon Resource Names (ARNs)
+    description: describes ARN formats for DocumentDB resources
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/documentdb-arns.html
-  - name: db-cluster-parameters
-    description: Amazon DocumentDB Parameters
+  - name: Amazon DocumentDB Parameters
+    description: lists all the parameters that are specific to a DocumentDB cluster
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameters.html
-  - name: tagging
-    description: Tagging Amazon DocumentDB Resources
+  - name: Tagging Amazon DocumentDB Resources
+    description: describes how to use tags to add metadata to DocumentDB resources
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/tagging.html
-  - name: faqs
-    description: Amazon DocumentDB (with MongoDB compatibility) FAQs
+  - name: Amazon DocumentDB FAQs
+    description: Amazon DocumentDB FAQs - DocumentDB frequently asked questions
     url: https://aws.amazon.com/documentdb/faqs/
-  - name: troubleshooting
-    description: Troubleshooting Amazon DocumentDB
+  - name: Troubleshooting Amazon DocumentDB
+    description: provides information about how to troubleshoot problems that you might encounter when using Amazon DocumentDB
     url: https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html
 
 # Example usage
@@ -131,3 +131,5 @@ contributors:
     github: "aknysh"
   - name: "Igor Rodionov"
     github: "goruha"
+  - name: "Jeremy Grodberg"
+    github: "Nuru"

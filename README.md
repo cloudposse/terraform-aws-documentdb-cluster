@@ -153,15 +153,15 @@ Check out these related projects.
 
 For additional context, refer to some of these links. 
 
-- [db-cluster-create](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-create.html) - Creating an Amazon DocumentDB Cluster
-- [db-instance-class-specs](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs) - Amazon DocumentDB Instance Class Specifications
-- [db-cluster-parameter-group-create](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html) - Creating an Amazon DocumentDB Cluster Parameter Group
-- [limits](https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html) - Amazon DocumentDB Limits
-- [documentdb-arns](https://docs.aws.amazon.com/documentdb/latest/developerguide/documentdb-arns.html) - Understanding Amazon DocumentDB Amazon Resource Names (ARNs)
-- [db-cluster-parameters](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameters.html) - Amazon DocumentDB Parameters
-- [tagging](https://docs.aws.amazon.com/documentdb/latest/developerguide/tagging.html) - Tagging Amazon DocumentDB Resources
-- [faqs](https://aws.amazon.com/documentdb/faqs/) - Amazon DocumentDB (with MongoDB compatibility) FAQs
-- [troubleshooting](https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html) - Troubleshooting Amazon DocumentDB
+- [Creating an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-create.html) - official AWS documentation on how to create a DocumentDB cluster
+- [Amazon DocumentDB Instance Class Specifications](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs) - provides details of the Amazon DocumentDB instance classes
+- [Creating an Amazon DocumentDB Cluster Parameter Group](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html) - official AWS documentation on how to create an Amazon DocumentDB Cluster Parameter Group
+- [Amazon DocumentDB Limits](https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html) - describes the resource limits and naming constraints for Amazon DocumentDB
+- [Understanding Amazon DocumentDB Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/documentdb/latest/developerguide/documentdb-arns.html) - describes ARN formats for DocumentDB resources
+- [Amazon DocumentDB Parameters](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameters.html) - lists all the parameters that are specific to a DocumentDB cluster
+- [Tagging Amazon DocumentDB Resources](https://docs.aws.amazon.com/documentdb/latest/developerguide/tagging.html) - describes how to use tags to add metadata to DocumentDB resources
+- [Amazon DocumentDB FAQs](https://aws.amazon.com/documentdb/faqs/) - Amazon DocumentDB FAQs - DocumentDB frequently asked questions
+- [Troubleshooting Amazon DocumentDB](https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html) - provides information about how to troubleshoot problems that you might encounter when using Amazon DocumentDB
 
 
 ## Help
@@ -281,8 +281,8 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 ### Contributors
 
-|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Andriy Knysh][aknysh_avatar]][aknysh_homepage]<br/>[Andriy Knysh][aknysh_homepage] | [![Igor Rodionov][goruha_avatar]][goruha_homepage]<br/>[Igor Rodionov][goruha_homepage] |
-|---|---|---|
+|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Andriy Knysh][aknysh_avatar]][aknysh_homepage]<br/>[Andriy Knysh][aknysh_homepage] | [![Igor Rodionov][goruha_avatar]][goruha_homepage]<br/>[Igor Rodionov][goruha_homepage] | [![Jeremy Grodberg][Nuru_avatar]][Nuru_homepage]<br/>[Jeremy Grodberg][Nuru_homepage] |
+|---|---|---|---|
 
   [osterman_homepage]: https://github.com/osterman
   [osterman_avatar]: https://github.com/osterman.png?size=150
@@ -290,6 +290,8 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
   [aknysh_avatar]: https://github.com/aknysh.png?size=150
   [goruha_homepage]: https://github.com/goruha
   [goruha_avatar]: https://github.com/goruha.png?size=150
+  [Nuru_homepage]: https://github.com/Nuru
+  [Nuru_avatar]: https://github.com/Nuru.png?size=150
 
 
 
