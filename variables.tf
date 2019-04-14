@@ -39,7 +39,7 @@ variable "tags" {
 variable "zone_id" {
   type        = "string"
   default     = ""
-  description = "Route53 parent zone ID. If provided (not empty), the module will create sub-domain DNS records for the DB master and replicas"
+  description = "Route53 parent zone ID. If provided (not empty), the module will create sub-domain DNS records for the DocumentDB master and replicas"
 }
 
 variable "allowed_security_groups" {
@@ -61,7 +61,7 @@ variable "vpc_id" {
 
 variable "subnet_ids" {
   type        = "list"
-  description = "List of VPC subnet IDs"
+  description = "List of VPC subnet IDs to place DocumentDB instances"
 }
 
 variable "instance_class" {
@@ -72,7 +72,7 @@ variable "instance_class" {
 
 variable "cluster_size" {
   type        = "string"
-  default     = "2"
+  default     = "3"
   description = "Number of DB instances to create in the cluster"
 }
 
@@ -164,4 +164,16 @@ variable "enabled_cloudwatch_logs_exports" {
   type        = "list"
   description = "List of log types to export to cloudwatch. The following log types are supported: audit, error, general, slowquery."
   default     = []
+}
+
+variable "cluster_dns_name" {
+  type        = "string"
+  description = "Name of the cluster CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `master.var.name`"
+  default     = ""
+}
+
+variable "reader_dns_name" {
+  type        = "string"
+  description = "Name of the reader endpoint CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `replicas.var.name`"
+  default     = ""
 }
