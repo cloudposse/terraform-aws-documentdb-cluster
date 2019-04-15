@@ -60,8 +60,6 @@ description: |-
 # How to use this project
 usage: |-
 
-  **IMPORTANT:** Do not pin to `master` because there may be breaking changes between releases. Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-aws-documentdb-cluster/releases).
-
   For a complete example, see [examples/complete](examples/complete)
 
   ```hcl
@@ -70,9 +68,9 @@ usage: |-
     namespace               = "eg"
     stage                   = "testing"
     name                    = "docdb"
-    cluster_size            = "2"
-    admin_user              = "admin1"
-    admin_password          = "Test123456789"
+    cluster_size            = "3"
+    master_username         = "admin1"
+    master_password         = "Test123456789"
     instance_class          = "db.r4.large"
     vpc_id                  = "vpc-xxxxxxxx"
     subnet_ids              = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
