@@ -124,7 +124,7 @@ module "dns_master" {
   enabled = var.enabled == "true" && length(var.zone_id) > 0 ? "true" : "false"
   name    = local.cluster_dns_name
   zone_id = var.zone_id
-  records = [coalescelist(aws_docdb_cluster.default.*.endpoint, [""])]
+  records = coalescelist(aws_docdb_cluster.default.*.endpoint, [""])
 }
 
 module "dns_replicas" {
@@ -132,6 +132,6 @@ module "dns_replicas" {
   enabled = var.enabled == "true" && length(var.zone_id) > 0 ? "true" : "false"
   name    = local.reader_dns_name
   zone_id = var.zone_id
-  records = [coalescelist(aws_docdb_cluster.default.*.reader_endpoint, [""])]
+  records = coalescelist(aws_docdb_cluster.default.*.reader_endpoint, [""])
 }
 
