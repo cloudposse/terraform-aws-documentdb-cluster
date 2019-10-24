@@ -97,7 +97,7 @@ resource "aws_docdb_cluster_parameter_group" "default" {
   description = "DB cluster parameter group"
   family      = var.cluster_family
   dynamic "parameter" {
-    for_each = [var.cluster_parameters]
+    for_each = var.cluster_parameters
     content {
       # TF-UPGRADE-TODO: The automatic upgrade tool can't predict
       # which keys might be set in maps assigned here, so it has
