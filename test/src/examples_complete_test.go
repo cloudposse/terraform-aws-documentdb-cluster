@@ -48,4 +48,24 @@ func TestExamplesComplete(t *testing.T) {
 	publicSubnetCidrs := terraform.OutputList(t, terraformOptions, "public_subnet_cidrs")
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, []string{"172.16.96.0/19", "172.16.128.0/19"}, publicSubnetCidrs)
+
+	// Run `terraform output` to get the value of an output variable
+	securityGroupName := terraform.Output(t, terraformOptions, "security_group_name")
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, "eg-test-documentdb-cluster", securityGroupName)
+
+	// Run `terraform output` to get the value of an output variable
+	clusterName := terraform.Output(t, terraformOptions, "cluster_name")
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, "eg-test-documentdb-cluster", clusterName)
+
+	// Run `terraform output` to get the value of an output variable
+	endpoint := terraform.Output(t, terraformOptions, "endpoint")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, endpoint, "eg-test-documentdb-cluster.cluster")
+
+	// Run `terraform output` to get the value of an output variable
+	readerEndpoint := terraform.Output(t, terraformOptions, "reader_endpoint")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster.cluster-ro")
 }

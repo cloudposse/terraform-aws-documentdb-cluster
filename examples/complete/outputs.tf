@@ -47,3 +47,18 @@ output "replicas_host" {
   value       = module.documentdb_cluster.replicas_host
   description = "DocumentDB replicas hostname"
 }
+
+output "security_group_id" {
+  value       = module.documentdb_cluster.security_group_id
+  description = "ID of the DocumentDB cluster Security Group"
+}
+
+output "security_group_arn" {
+  value       = module.documentdb_cluster.security_group_arn
+  description = "ARN of the DocumentDB cluster Security Group"
+}
+
+output "security_group_name" {
+  value       = module.documentdb_cluster.security_group_name
+  description = "Name of the DocumentDB cluster Security Group"
+}
