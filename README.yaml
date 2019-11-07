@@ -32,9 +32,9 @@ github_repo: cloudposse/terraform-aws-documentdb-cluster
 
 # Badges to display
 badges:
-  - name: "Build Status"
-    image: "https://travis-ci.org/cloudposse/terraform-aws-documentdb-cluster.svg?branch=master"
-    url: "https://travis-ci.org/cloudposse/terraform-aws-documentdb-cluster"
+  - name: "Codefresh Build Status"
+    image: "https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-documentdb-cluster?type=cf-1"
+    url: "https://g.codefresh.io/public/accounts/cloudposse/pipelines/5dc37cdcceef84e7ed584ff5"
   - name: "Latest Release"
     image: "https://img.shields.io/github/release/cloudposse/terraform-aws-documentdb-cluster.svg"
     url: "https://github.com/cloudposse/terraform-aws-documentdb-cluster/releases/latest"
@@ -60,7 +60,9 @@ description: |-
 # How to use this project
 usage: |-
 
-  For a complete example, see [examples/complete](examples/complete)
+  For a complete example, see [examples/complete](examples/complete).
+
+  For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest) (which tests and deploys the example on AWS), see [test](test).
 
   ```hcl
   module "documentdb_cluster" {
@@ -68,7 +70,7 @@ usage: |-
     namespace               = "eg"
     stage                   = "testing"
     name                    = "docdb"
-    cluster_size            = "3"
+    cluster_size            = 3
     master_username         = "admin1"
     master_password         = "Test123456789"
     instance_class          = "db.r4.large"

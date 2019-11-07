@@ -10,48 +10,64 @@ https://www.terraform.io/docs/providers/aws/r/docdb_subnet_group.html
 https://docs.aws.amazon.com/documentdb/latest/developerguide/troubleshooting.html
 */
 
-provider "aws" {
-  region = "${var.region}"
-}
-
 module "vpc" {
-  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.4.0"
-  namespace  = "${var.namespace}"
-  stage      = "${var.stage}"
-  name       = "${var.name}"
-  cidr_block = "172.16.0.0/16"
-}
-
-data "aws_availability_zones" "available" {}
-
-locals {
-  availability_zones = "${slice(data.aws_availability_zones.available.names, 0, 3)}"
+  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.8.1"
+  namespace  = var.namespace
+  stage      = var.stage
+  name       = var.name
+  delimiter  = var.delimiter
+  attributes = var.attributes
+  cidr_block = var.vpc_cidr_block
+  tags       = var.tags
 }
 
 module "subnets" {
-  source              = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.6.0"
-  availability_zones  = "${local.availability_zones}"
-  namespace           = "${var.namespace}"
-  stage               = "${var.stage}"
-  name                = "${var.name}"
-  region              = "${var.region}"
-  vpc_id              = "${module.vpc.vpc_id}"
-  igw_id              = "${module.vpc.igw_id}"
-  cidr_block          = "${module.vpc.vpc_cidr_block}"
-  nat_gateway_enabled = "true"
+  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.16.1"
+  availability_zones   = var.availability_zones
+  namespace            = var.namespace
+  stage                = var.stage
+  name                 = var.name
+  attributes           = var.attributes
+  delimiter            = var.delimiter
+  vpc_id               = module.vpc.vpc_id
+  igw_id               = module.vpc.igw_id
+  cidr_block           = module.vpc.vpc_cidr_block
+  nat_gateway_enabled  = false
+  nat_instance_enabled = false
+  tags                 = var.tags
 }
 
 module "documentdb_cluster" {
-  source            = "../../"
-  namespace         = "${var.namespace}"
-  stage             = "${var.stage}"
-  name              = "${var.name}"
-  cluster_size      = "${length(local.availability_zones)}"
-  master_username   = "admin1"
-  master_password   = "Test123456789"
-  instance_class    = "db.r4.large"
-  db_port           = 27017
-  vpc_id            = "${module.vpc.vpc_id}"
-  subnet_ids        = ["${module.subnets.private_subnet_ids}"]
-  apply_immediately = "true"
+  source                          = "../../"
+  enabled                         = var.enabled
+  namespace                       = var.namespace
+  stage                           = var.stage
+  name                            = var.name
+  delimiter                       = var.delimiter
+  attributes                      = var.attributes
+  tags                            = var.tags
+  cluster_size                    = var.cluster_size
+  master_username                 = var.master_username
+  master_password                 = var.master_password
+  instance_class                  = var.instance_class
+  db_port                         = var.db_port
+  vpc_id                          = module.vpc.vpc_id
+  subnet_ids                      = module.subnets.private_subnet_ids
+  zone_id                         = var.zone_id
+  apply_immediately               = var.apply_immediately
+  allowed_security_groups         = var.allowed_security_groups
+  allowed_cidr_blocks             = var.allowed_cidr_blocks
+  snapshot_identifier             = var.snapshot_identifier
+  retention_period                = var.retention_period
+  preferred_backup_window         = var.preferred_backup_window
+  cluster_parameters              = var.cluster_parameters
+  cluster_family                  = var.cluster_family
+  engine                          = var.engine
+  engine_version                  = var.engine_version
+  storage_encrypted               = var.storage_encrypted
+  kms_key_id                      = var.kms_key_id
+  skip_final_snapshot             = var.skip_final_snapshot
+  enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
+  cluster_dns_name                = var.cluster_dns_name
+  reader_dns_name                 = var.reader_dns_name
 }
