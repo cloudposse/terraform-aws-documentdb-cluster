@@ -70,6 +70,13 @@ resource "aws_docdb_cluster" "default" {
   engine_version                  = var.engine_version
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   tags                            = module.label.tags
+
+  lifecycle { # We do not want to change password, nor store the current in code nor state so ignoring changes from here
+    ignore_changes = [
+      master_password,
+    ]
+  }
+
 }
 
 resource "aws_docdb_cluster_instance" "default" {
