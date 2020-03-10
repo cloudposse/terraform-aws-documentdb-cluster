@@ -185,3 +185,9 @@ variable "reader_dns_name" {
   description = "Name of the reader endpoint CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `replicas.var.name`"
   default     = ""
 }
+
+variable "db_subnet_group_name" {
+  description = "The existing subnet group name to use"
+  type        = string
+  default     = ""
+}

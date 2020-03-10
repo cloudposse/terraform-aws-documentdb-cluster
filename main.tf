@@ -1,3 +1,7 @@
+locals {
+  db_subnet_group_name = var.db_subnet_group_name == "" ? module.label.id : var.db_subnet_group_name
+}
+
 module "label" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
   enabled    = var.enabled
@@ -91,10 +95,10 @@ resource "aws_docdb_cluster_instance" "default" {
 
 resource "aws_docdb_subnet_group" "default" {
   count       = var.enabled ? 1 : 0
-  name        = module.label.id
+  name        = local.db_subnet_group_name
   description = "Allowed subnets for DB cluster instances"
   subnet_ids  = var.subnet_ids
-  tags        = module.label.tags
+  tags        = merge(module.label.tags, {"Name" = local.db_subnet_group_name})
 }
 
 # https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
