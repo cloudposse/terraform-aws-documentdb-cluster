@@ -70,6 +70,7 @@ resource "aws_docdb_cluster" "default" {
   vpc_security_group_ids          = [join("", aws_security_group.default.*.id)]
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default.*.name)
   db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default.*.name)
+  deletion_protection             = var.deletion_protection
   engine                          = var.engine
   engine_version                  = var.engine_version
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
