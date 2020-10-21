@@ -62,6 +62,7 @@ resource "aws_docdb_cluster" "default" {
   apply_immediately               = var.apply_immediately
   storage_encrypted               = var.storage_encrypted
   kms_key_id                      = var.kms_key_id
+  protocol                        = var.db_port
   snapshot_identifier             = var.snapshot_identifier
   vpc_security_group_ids          = [join("", aws_security_group.default.*.id)]
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default.*.name)
@@ -73,13 +74,15 @@ resource "aws_docdb_cluster" "default" {
 }
 
 resource "aws_docdb_cluster_instance" "default" {
-  count              = var.enabled ? var.cluster_size : 0
-  identifier         = "${module.label.id}-${count.index + 1}"
-  cluster_identifier = join("", aws_docdb_cluster.default.*.id)
-  apply_immediately  = var.apply_immediately
-  instance_class     = var.instance_class
-  tags               = module.label.tags
-  engine             = var.engine
+  count                        = var.enabled ? var.cluster_size : 0
+  identifier                   = "${module.label.id}-${count.index + 1}"
+  cluster_identifier           = join("", aws_docdb_cluster.default.*.id)
+  apply_immediately            = var.apply_immediately
+  instance_class               = var.instance_class
+  tags                         = module.label.tags
+  engine                       = var.engine
+  auto_minor_version_upgrade   = var.auto_minor_version_upgrade
+  preferred_maintenance_window = var.preferred_maintenance_window
 }
 
 resource "aws_docdb_subnet_group" "default" {
