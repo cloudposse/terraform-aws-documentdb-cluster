@@ -62,7 +62,7 @@ resource "aws_docdb_cluster" "default" {
   apply_immediately               = var.apply_immediately
   storage_encrypted               = var.storage_encrypted
   kms_key_id                      = var.kms_key_id
-  protocol                        = var.db_port
+  port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
   vpc_security_group_ids          = [join("", aws_security_group.default.*.id)]
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default.*.name)
