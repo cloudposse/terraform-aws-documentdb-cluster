@@ -57,6 +57,7 @@ resource "aws_docdb_cluster" "default" {
   master_password                 = var.master_password
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
+  preferred_maintenance_window    = var.preferred_maintenance_window
   final_snapshot_identifier       = lower(module.label.id)
   skip_final_snapshot             = var.skip_final_snapshot
   apply_immediately               = var.apply_immediately
@@ -82,7 +83,6 @@ resource "aws_docdb_cluster_instance" "default" {
   tags                         = module.label.tags
   engine                       = var.engine
   auto_minor_version_upgrade   = var.auto_minor_version_upgrade
-  preferred_maintenance_window = var.preferred_maintenance_window
 }
 
 resource "aws_docdb_subnet_group" "default" {
