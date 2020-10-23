@@ -105,6 +105,7 @@ Available targets:
 
 ```
 <!-- markdownlint-restore -->
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -145,7 +146,7 @@ Available targets:
 | name | Name of the application | `string` | n/a | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | `string` | `""` | no |
 | preferred\_backup\_window | Daily time range during which the backups happen | `string` | `"07:00-09:00"` | no |
-| preferred\_maintenance\_window | The window to perform maintenance in | `string` | `"Mon:22:00-Mon:23:00"` | no |
+| preferred\_maintenance\_window | The window to perform maintenance in. Syntax: `ddd:hh24:mi-ddd:hh24:mi`. | `string` | `"Mon:22:00-Mon:23:00"` | no |
 | reader\_dns\_name | Name of the reader endpoint CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `replicas.var.name` | `string` | `""` | no |
 | retention\_period | Number of days to retain backups for | `number` | `5` | no |
 | skip\_final\_snapshot | Determines whether a final DB snapshot is created before the DB cluster is deleted | `bool` | `true` | no |
@@ -172,6 +173,7 @@ Available targets:
 | security\_group\_id | ID of the DocumentDB cluster Security Group |
 | security\_group\_name | Name of the DocumentDB cluster Security Group |
 
+<!-- markdownlint-restore -->
 
 
 
