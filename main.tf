@@ -75,14 +75,14 @@ resource "aws_docdb_cluster" "default" {
 }
 
 resource "aws_docdb_cluster_instance" "default" {
-  count                        = var.enabled ? var.cluster_size : 0
-  identifier                   = "${module.label.id}-${count.index + 1}"
-  cluster_identifier           = join("", aws_docdb_cluster.default.*.id)
-  apply_immediately            = var.apply_immediately
-  instance_class               = var.instance_class
-  tags                         = module.label.tags
-  engine                       = var.engine
-  auto_minor_version_upgrade   = var.auto_minor_version_upgrade
+  count                      = var.enabled ? var.cluster_size : 0
+  identifier                 = "${module.label.id}-${count.index + 1}"
+  cluster_identifier         = join("", aws_docdb_cluster.default.*.id)
+  apply_immediately          = var.apply_immediately
+  instance_class             = var.instance_class
+  tags                       = module.label.tags
+  engine                     = var.engine
+  auto_minor_version_upgrade = var.auto_minor_version_upgrade
 }
 
 resource "aws_docdb_subnet_group" "default" {
