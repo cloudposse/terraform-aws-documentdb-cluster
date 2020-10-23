@@ -59,11 +59,13 @@ module "documentdb_cluster" {
   subnet_ids                      = module.subnets.private_subnet_ids
   zone_id                         = var.zone_id
   apply_immediately               = var.apply_immediately
+  auto_minor_version_upgrade      = var.auto_minor_version_upgrade
   allowed_security_groups         = var.allowed_security_groups
   allowed_cidr_blocks             = var.allowed_cidr_blocks
   snapshot_identifier             = var.snapshot_identifier
   retention_period                = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
+  preferred_maintenance_window    = var.preferred_maintenance_window
   cluster_parameters              = var.cluster_parameters
   cluster_family                  = var.cluster_family
   engine                          = var.engine

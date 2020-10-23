@@ -120,6 +120,12 @@ variable "preferred_backup_window" {
   description = "Daily time range during which the backups happen"
 }
 
+variable "preferred_maintenance_window" {
+  type        = string
+  default     = "Mon:22:00-Mon:23:00"
+  description = "The window to perform maintenance in. Syntax: `ddd:hh24:mi-ddd:hh24:mi`."
+}
+
 variable "cluster_parameters" {
   type = list(object({
     apply_method = string
@@ -169,6 +175,12 @@ variable "skip_final_snapshot" {
 variable "apply_immediately" {
   type        = bool
   description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window"
+  default     = true
+}
+
+variable "auto_minor_version_upgrade" {
+  type        = bool
+  description = "Specifies whether any minor engine upgrades will be applied automatically to the DB instance during the maintenance window or not"
   default     = true
 }
 
