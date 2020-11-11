@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.8.1"
+  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.18.0"
   namespace  = var.namespace
   stage      = var.stage
   name       = var.name
@@ -26,7 +26,7 @@ module "vpc" {
 }
 
 module "subnets" {
-  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.16.1"
+  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.31.0"
   availability_zones   = var.availability_zones
   namespace            = var.namespace
   stage                = var.stage
