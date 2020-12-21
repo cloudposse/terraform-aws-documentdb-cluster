@@ -54,7 +54,9 @@ usage: |2-
 
   ```hcl
   module "documentdb_cluster" {
-    source                  = "git::https://github.com/cloudposse/terraform-aws-documentdb-cluster.git?ref=master"
+    source = "cloudposse/documentdb-cluster/aws"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version = "x.x.x"
     namespace               = "eg"
     stage                   = "testing"
     name                    = "docdb"

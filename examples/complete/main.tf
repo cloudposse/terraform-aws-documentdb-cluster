@@ -15,41 +15,28 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.18.0"
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = var.name
-  delimiter  = var.delimiter
-  attributes = var.attributes
+  source     = "cloudposse/vpc/aws"
+  version    = "0.18.1"
   cidr_block = var.vpc_cidr_block
-  tags       = var.tags
+
+  context = module.this.context
 }
 
 module "subnets" {
-  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.31.0"
+  source               = "cloudposse/dynamic-subnets/aws"
+  version              = "0.33.0"
   availability_zones   = var.availability_zones
-  namespace            = var.namespace
-  stage                = var.stage
-  name                 = var.name
-  attributes           = var.attributes
-  delimiter            = var.delimiter
   vpc_id               = module.vpc.vpc_id
   igw_id               = module.vpc.igw_id
   cidr_block           = module.vpc.vpc_cidr_block
   nat_gateway_enabled  = false
   nat_instance_enabled = false
-  tags                 = var.tags
+
+  context = module.this.context
 }
 
 module "documentdb_cluster" {
   source                          = "../../"
-  enabled                         = var.enabled
-  namespace                       = var.namespace
-  stage                           = var.stage
-  name                            = var.name
-  delimiter                       = var.delimiter
-  attributes                      = var.attributes
-  tags                            = var.tags
   cluster_size                    = var.cluster_size
   master_username                 = var.master_username
   master_password                 = var.master_password
@@ -76,4 +63,6 @@ module "documentdb_cluster" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   cluster_dns_name                = var.cluster_dns_name
   reader_dns_name                 = var.reader_dns_name
+
+  context = module.this.context
 }
