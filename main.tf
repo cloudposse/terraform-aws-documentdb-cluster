@@ -109,23 +109,23 @@ locals {
 }
 
 module "dns_master" {
-  source  = "cloudposse/route53-cluster-hostname/aws"
-  version = "0.8.0"
-  enabled = module.this.enabled && var.zone_id != "" ? true : false
-  name    = local.cluster_dns_name
-  zone_id = var.zone_id
-  records = coalescelist(aws_docdb_cluster.default.*.endpoint, [""])
+  source   = "cloudposse/route53-cluster-hostname/aws"
+  version  = "0.8.0"
+  enabled  = module.this.enabled && var.zone_id != "" ? true : false
+  dns_name = local.cluster_dns_name
+  zone_id  = var.zone_id
+  records  = coalescelist(aws_docdb_cluster.default.*.endpoint, [""])
 
   context = module.this.context
 }
 
 module "dns_replicas" {
-  source  = "cloudposse/route53-cluster-hostname/aws"
-  version = "0.8.0"
-  enabled = module.this.enabled && var.zone_id != "" ? true : false
-  name    = local.replicas_dns_name
-  zone_id = var.zone_id
-  records = coalescelist(aws_docdb_cluster.default.*.reader_endpoint, [""])
+  source   = "cloudposse/route53-cluster-hostname/aws"
+  version  = "0.8.0"
+  enabled  = module.this.enabled && var.zone_id != "" ? true : false
+  dns_name = local.replicas_dns_name
+  zone_id  = var.zone_id
+  records  = coalescelist(aws_docdb_cluster.default.*.reader_endpoint, [""])
 
   context = module.this.context
 }
