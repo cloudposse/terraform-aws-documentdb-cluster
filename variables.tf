@@ -26,7 +26,7 @@ variable "subnet_ids" {
   description = "List of VPC subnet IDs to place DocumentDB instances in"
 }
 
-// https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#suported-instance-types
+# https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#suported-instance-types
 variable "instance_class" {
   type        = string
   default     = "db.r4.large"
