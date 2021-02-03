@@ -109,9 +109,9 @@ locals {
 }
 
 module "dns_master" {
-  source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.11.0"
-  
+  source  = "cloudposse/route53-cluster-hostname/aws"
+  version = "0.11.0"
+
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.cluster_dns_name
   zone_id  = var.zone_id
@@ -121,9 +121,9 @@ module "dns_master" {
 }
 
 module "dns_replicas" {
-  source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.11.0"
-  
+  source  = "cloudposse/route53-cluster-hostname/aws"
+  version = "0.11.0"
+
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.replicas_dns_name
   zone_id  = var.zone_id
