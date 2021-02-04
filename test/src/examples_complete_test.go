@@ -2,7 +2,10 @@ package test
 
 import (
 	"fmt"
+	"math/rand"
+	"strconv"
 	"testing"
+	"time"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
@@ -12,6 +15,11 @@ import (
 func TestExamplesComplete(t *testing.T) {
 	t.Parallel()
 
+	rand.Seed(time.Now().UnixNano())
+
+	randId := strconv.Itoa(rand.Intn(100000))
+	attributes := []string{randId}
+
 	// We need to create the ALB first because terraform does not wwait for it to be in the ready state before creating ECS target group
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
@@ -19,6 +27,9 @@ func TestExamplesComplete(t *testing.T) {
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-2.tfvars"},
+		Vars: map[string]interface{}{
+			"attributes": attributes,
+		},
 	}
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
@@ -52,20 +63,20 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	securityGroupName := terraform.Output(t, terraformOptions, "security_group_name")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "eg-test-documentdb-cluster", securityGroupName)
+	assert.Equal(t, "eg-test-documentdb-cluster-"+randId, securityGroupName)
 
 	// Run `terraform output` to get the value of an output variable
 	clusterName := terraform.Output(t, terraformOptions, "cluster_name")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "eg-test-documentdb-cluster", clusterName)
+	assert.Equal(t, "eg-test-documentdb-cluster-"+randId, clusterName)
 
 	// Run `terraform output` to get the value of an output variable
 	endpoint := terraform.Output(t, terraformOptions, "endpoint")
 	// Verify we're getting back the outputs we expect
-	assert.Contains(t, endpoint, "eg-test-documentdb-cluster.cluster")
+	assert.Contains(t, endpoint, "eg-test-documentdb-cluster-"+randId+".cluster")
 
 	// Run `terraform output` to get the value of an output variable
 	readerEndpoint := terraform.Output(t, terraformOptions, "reader_endpoint")
 	// Verify we're getting back the outputs we expect
-	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster.cluster-ro")
+	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster-"+randId+".cluster-ro")
 }

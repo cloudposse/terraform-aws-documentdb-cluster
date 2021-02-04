@@ -69,9 +69,9 @@ resource "aws_docdb_cluster_instance" "default" {
   cluster_identifier         = join("", aws_docdb_cluster.default.*.id)
   apply_immediately          = var.apply_immediately
   instance_class             = var.instance_class
-  tags                       = module.this.tags
   engine                     = var.engine
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
+  tags                       = module.this.tags
 }
 
 resource "aws_docdb_subnet_group" "default" {
@@ -109,8 +109,9 @@ locals {
 }
 
 module "dns_master" {
-  source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.8.0"
+  source  = "cloudposse/route53-cluster-hostname/aws"
+  version = "0.11.0"
+
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.cluster_dns_name
   zone_id  = var.zone_id
@@ -120,8 +121,9 @@ module "dns_master" {
 }
 
 module "dns_replicas" {
-  source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.8.0"
+  source  = "cloudposse/route53-cluster-hostname/aws"
+  version = "0.11.0"
+
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.replicas_dns_name
   zone_id  = var.zone_id
