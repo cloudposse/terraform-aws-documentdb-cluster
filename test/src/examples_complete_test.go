@@ -73,10 +73,10 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	endpoint := terraform.Output(t, terraformOptions, "endpoint")
 	// Verify we're getting back the outputs we expect
-	assert.Contains(t, endpoint, "eg-test-documentdb-cluster.cluster")
+	assert.Contains(t, endpoint, "eg-test-documentdb-cluster-"+randId+".cluster")
 
 	// Run `terraform output` to get the value of an output variable
 	readerEndpoint := terraform.Output(t, terraformOptions, "reader_endpoint")
 	// Verify we're getting back the outputs we expect
-	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster.cluster-ro")
+	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster-"+randId+".cluster-ro")
 }
