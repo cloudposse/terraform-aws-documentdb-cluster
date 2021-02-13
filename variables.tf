@@ -127,6 +127,12 @@ variable "skip_final_snapshot" {
   default     = true
 }
 
+variable "deletion_protection" {
+  type        = bool
+  description = "A value that indicates whether the DB cluster has deletion protection enabled"
+  default     = false
+}
+
 variable "apply_immediately" {
   type        = bool
   description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window"

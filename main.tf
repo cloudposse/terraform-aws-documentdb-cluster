@@ -49,6 +49,7 @@ resource "aws_docdb_cluster" "default" {
   preferred_maintenance_window    = var.preferred_maintenance_window
   final_snapshot_identifier       = lower(module.this.id)
   skip_final_snapshot             = var.skip_final_snapshot
+  deletion_protection             = var.deletion_protection
   apply_immediately               = var.apply_immediately
   storage_encrypted               = var.storage_encrypted
   kms_key_id                      = var.kms_key_id

@@ -13,6 +13,25 @@
 |------|---------|
 | aws | >= 2.0 |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| dns_master | cloudposse/route53-cluster-hostname/aws | 0.12.0 |
+| dns_replicas | cloudposse/route53-cluster-hostname/aws | 0.12.0 |
+| this | cloudposse/label/null | 0.24.1 |
+
+## Resources
+
+| Name |
+|------|
+| [aws_docdb_cluster](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_cluster) |
+| [aws_docdb_cluster_instance](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_cluster_instance) |
+| [aws_docdb_cluster_parameter_group](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_cluster_parameter_group) |
+| [aws_docdb_subnet_group](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_subnet_group) |
+| [aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/security_group) |
+| [aws_security_group_rule](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/security_group_rule) |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -29,6 +48,7 @@
 | cluster\_size | Number of DB instances to create in the cluster | `number` | `3` | no |
 | context | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_key_case": null,<br>  "label_order": [],<br>  "label_value_case": null,<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {}<br>}</pre> | no |
 | db\_port | DocumentDB port | `number` | `27017` | no |
+| deletion\_protection | A value that indicates whether the DB cluster has deletion protection enabled | `bool` | `false` | no |
 | delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
 | enabled | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | enabled\_cloudwatch\_logs\_exports | List of log types to export to cloudwatch. The following log types are supported: `audit`, `error`, `general`, `slowquery` | `list(string)` | `[]` | no |
@@ -73,5 +93,4 @@
 | security\_group\_arn | ARN of the DocumentDB cluster Security Group |
 | security\_group\_id | ID of the DocumentDB cluster Security Group |
 | security\_group\_name | Name of the DocumentDB cluster Security Group |
-
 <!-- markdownlint-restore -->
