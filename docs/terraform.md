@@ -13,6 +13,25 @@
 |------|---------|
 | aws | >= 2.0 |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| dns_master | cloudposse/route53-cluster-hostname/aws | 0.12.0 |
+| dns_replicas | cloudposse/route53-cluster-hostname/aws | 0.12.0 |
+| this | cloudposse/label/null | 0.24.1 |
+
+## Resources
+
+| Name |
+|------|
+| [aws_docdb_cluster](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_cluster) |
+| [aws_docdb_cluster_instance](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_cluster_instance) |
+| [aws_docdb_cluster_parameter_group](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_cluster_parameter_group) |
+| [aws_docdb_subnet_group](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/docdb_subnet_group) |
+| [aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/security_group) |
+| [aws_security_group_rule](https://registry.terraform.io/providers/hashicorp/aws/2.0/docs/resources/security_group_rule) |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -74,5 +93,4 @@
 | security\_group\_arn | ARN of the DocumentDB cluster Security Group |
 | security\_group\_id | ID of the DocumentDB cluster Security Group |
 | security\_group\_name | Name of the DocumentDB cluster Security Group |
-
 <!-- markdownlint-restore -->
