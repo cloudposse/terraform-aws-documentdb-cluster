@@ -61,11 +61,6 @@ func TestExamplesComplete(t *testing.T) {
 	assert.Equal(t, []string{"172.16.96.0/19", "172.16.128.0/19"}, publicSubnetCidrs)
 
 	// Run `terraform output` to get the value of an output variable
-	securityGroupName := terraform.Output(t, terraformOptions, "security_group_name")
-	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "eg-test-documentdb-cluster-"+randId, securityGroupName)
-
-	// Run `terraform output` to get the value of an output variable
 	clusterName := terraform.Output(t, terraformOptions, "cluster_name")
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, "eg-test-documentdb-cluster-"+randId, clusterName)
@@ -79,4 +74,20 @@ func TestExamplesComplete(t *testing.T) {
 	readerEndpoint := terraform.Output(t, terraformOptions, "reader_endpoint")
 	// Verify we're getting back the outputs we expect
 	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster-"+randId+".cluster-ro")
+
+	// Run `terraform output` to get the value of an output variable
+	securityGroupName := terraform.Output(t, terraformOptions, "security_group_name")
+	expectedSecurityGroupName := "eg-test-documentdb-cluster-" + randId
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, expectedSecurityGroupName, securityGroupName)
+
+	// Run `terraform output` to get the value of an output variable
+	securityGroupID := terraform.Output(t, terraformOptions, "security_group_id")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, securityGroupID, "sg-", "SG ID should contains substring 'sg-'")
+
+	// Run `terraform output` to get the value of an output variable
+	securityGroupARN := terraform.Output(t, terraformOptions, "security_group_arn")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, securityGroupARN, "arn:aws:ec2", "SG ID should contains substring 'arn:aws:ec2'")
 }

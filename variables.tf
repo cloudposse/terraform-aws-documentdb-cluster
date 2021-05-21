@@ -4,18 +4,6 @@ variable "zone_id" {
   description = "Route53 parent zone ID. If provided (not empty), the module will create sub-domain DNS records for the DocumentDB master and replicas"
 }
 
-variable "allowed_security_groups" {
-  type        = list(string)
-  default     = []
-  description = "List of existing Security Groups to be allowed to connect to the DocumentDB cluster"
-}
-
-variable "allowed_cidr_blocks" {
-  type        = list(string)
-  default     = []
-  description = "List of CIDR blocks to be allowed to connect to the DocumentDB cluster"
-}
-
 variable "vpc_id" {
   type        = string
   description = "VPC ID to create the cluster in (e.g. `vpc-a22222ee`)"
@@ -24,6 +12,49 @@ variable "vpc_id" {
 variable "subnet_ids" {
   type        = list(string)
   description = "List of VPC subnet IDs to place DocumentDB instances in"
+}
+
+variable "security_group_enabled" {
+  type        = bool
+  description = "Whether to create default Security Group for DocumentDB."
+  default     = true
+}
+
+variable "security_group_description" {
+  type        = string
+  default     = "DocumentDB Security Group"
+  description = "The Security Group description."
+}
+
+variable "security_group_use_name_prefix" {
+  type        = bool
+  default     = false
+  description = "Whether to create a default Security Group with unique name beginning with the normalized prefix."
+}
+
+variable "security_group_rules" {
+  type = list(any)
+  default = [
+    {
+      type        = "egress"
+      from_port   = 0
+      to_port     = 65535
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow all outbound traffic"
+    }
+  ]
+  description = <<-EOT
+    A list of maps of Security Group rules. 
+    The values of map is fully complated with `aws_security_group_rule` resource. 
+    To get more info see https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule .
+  EOT
+}
+
+variable "security_groups" {
+  type        = list(string)
+  default     = []
+  description = "A list of Security Group IDs to associate with DocumentDB."
 }
 
 # https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#suported-instance-types

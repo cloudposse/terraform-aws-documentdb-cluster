@@ -19,18 +19,6 @@ variable "zone_id" {
   description = "Route53 parent zone ID. If provided (not empty), the module will create sub-domain DNS records for the DocumentDB master and replicas"
 }
 
-variable "allowed_security_groups" {
-  type        = list(string)
-  default     = []
-  description = "List of existing Security Groups to be allowed to connect to the DocumentDB cluster"
-}
-
-variable "allowed_cidr_blocks" {
-  type        = list(string)
-  default     = []
-  description = "List of CIDR blocks to be allowed to connect to the DocumentDB cluster"
-}
-
 variable "instance_class" {
   type        = string
   default     = "db.r4.large"
