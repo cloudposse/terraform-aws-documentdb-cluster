@@ -12,7 +12,7 @@ name = "documentdb-cluster"
 
 vpc_cidr_block = "172.16.0.0/16"
 
-instance_class = "db.r4.large"
+instance_class = "db.t3.medium"
 
 cluster_size = 1
 
