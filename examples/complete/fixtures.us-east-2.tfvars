@@ -26,7 +26,7 @@ retention_period = 5
 
 preferred_backup_window = "07:00-09:00"
 
-cluster_family = "docdb3.6"
+cluster_family = "docdb4.0"
 
 engine = "docdb"
 
