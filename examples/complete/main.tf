@@ -49,8 +49,6 @@ module "documentdb_cluster" {
   zone_id                         = var.zone_id
   apply_immediately               = var.apply_immediately
   auto_minor_version_upgrade      = var.auto_minor_version_upgrade
-  allowed_security_groups         = var.allowed_security_groups
-  allowed_cidr_blocks             = var.allowed_cidr_blocks
   snapshot_identifier             = var.snapshot_identifier
   retention_period                = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
@@ -65,6 +63,27 @@ module "documentdb_cluster" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   cluster_dns_name                = var.cluster_dns_name
   reader_dns_name                 = var.reader_dns_name
+
+  security_group_rules = [
+    {
+      type                     = "egress"
+      from_port                = 0
+      to_port                  = 65535
+      protocol                 = "-1"
+      cidr_blocks              = ["0.0.0.0/0"]
+      source_security_group_id = null
+      description              = "Allow all outbound traffic"
+    },
+    {
+      type                     = "ingress"
+      from_port                = 0
+      to_port                  = 65535
+      protocol                 = "-1"
+      cidr_blocks              = []
+      source_security_group_id = module.vpc.vpc_default_security_group_id
+      description              = "Allow all inbound traffic from trusted Security Groups"
+    }
+  ]
 
   context = module.this.context
 }

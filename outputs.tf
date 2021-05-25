@@ -34,16 +34,16 @@ output "replicas_host" {
 }
 
 output "security_group_id" {
-  description = "ID of the DocumentDB cluster Security Group"
-  value       = join("", aws_security_group.default.*.id)
+  value       = module.security_group.id
+  description = "DocumentDB Security Group ID"
 }
 
 output "security_group_arn" {
-  description = "ARN of the DocumentDB cluster Security Group"
-  value       = join("", aws_security_group.default.*.arn)
+  value       = module.security_group.arn
+  description = "DocumentDB Security Group ARN"
 }
 
 output "security_group_name" {
-  description = "Name of the DocumentDB cluster Security Group"
-  value       = join("", aws_security_group.default.*.name)
+  value       = module.security_group.name
+  description = "DocumentDB Security Group name"
 }

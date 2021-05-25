@@ -1,42 +1,18 @@
-resource "aws_security_group" "default" {
-  count       = module.this.enabled ? 1 : 0
-  name        = module.this.id
-  description = "Security Group for DocumentDB cluster"
-  vpc_id      = var.vpc_id
-  tags        = module.this.tags
+locals {
+  security_group_enabled = module.this.enabled && var.security_group_enabled
 }
 
-resource "aws_security_group_rule" "egress" {
-  count             = module.this.enabled ? 1 : 0
-  type              = "egress"
-  description       = "Allow all egress traffic"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = join("", aws_security_group.default.*.id)
-}
+module "security_group" {
+  source  = "cloudposse/security-group/aws"
+  version = "0.3.1"
 
-resource "aws_security_group_rule" "ingress_security_groups" {
-  count                    = module.this.enabled ? length(var.allowed_security_groups) : 0
-  type                     = "ingress"
-  description              = "Allow inbound traffic from existing Security Groups"
-  from_port                = var.db_port
-  to_port                  = var.db_port
-  protocol                 = "tcp"
-  source_security_group_id = element(var.allowed_security_groups, count.index)
-  security_group_id        = join("", aws_security_group.default.*.id)
-}
+  use_name_prefix = var.security_group_use_name_prefix
+  rules           = var.security_group_rules
+  description     = var.security_group_description
+  vpc_id          = var.vpc_id
 
-resource "aws_security_group_rule" "ingress_cidr_blocks" {
-  type              = "ingress"
-  count             = module.this.enabled && length(var.allowed_cidr_blocks) > 0 ? 1 : 0
-  description       = "Allow inbound traffic from CIDR blocks"
-  from_port         = var.db_port
-  to_port           = var.db_port
-  protocol          = "tcp"
-  cidr_blocks       = var.allowed_cidr_blocks
-  security_group_id = join("", aws_security_group.default.*.id)
+  enabled = local.security_group_enabled
+  context = module.this.context
 }
 
 resource "aws_docdb_cluster" "default" {
@@ -55,7 +31,7 @@ resource "aws_docdb_cluster" "default" {
   kms_key_id                      = var.kms_key_id
   port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
-  vpc_security_group_ids          = [join("", aws_security_group.default.*.id)]
+  vpc_security_group_ids          = compact(concat(module.security_group.*.id, var.security_groups))
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default.*.name)
   db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default.*.name)
   engine                          = var.engine

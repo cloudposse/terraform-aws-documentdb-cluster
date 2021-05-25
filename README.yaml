@@ -66,8 +66,28 @@ usage: |2-
     instance_class          = "db.r4.large"
     vpc_id                  = "vpc-xxxxxxxx"
     subnet_ids              = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
-    allowed_security_groups = ["sg-xxxxxxxx"]
     zone_id                 = "Zxxxxxxxx"
+
+    security_group_rules = [
+      {
+        type                     = "egress"
+        from_port                = 0
+        to_port                  = 65535
+        protocol                 = "-1"
+        cidr_blocks              = ["0.0.0.0/0"]
+        source_security_group_id = null
+        description              = "Allow all outbound traffic"
+      },
+      {
+        type                     = "ingress"
+        from_port                = 0
+        to_port                  = 65535
+        protocol                 = "-1"
+        cidr_blocks              = []
+        source_security_group_id = "sg-XXXXXXXXX"
+        description              = "Allow all inbound traffic from trusted Security Groups"
+      }
+    ]
   }
   ```
 references:
@@ -118,3 +138,5 @@ contributors:
     github: "aknysh"
   - name: "Igor Rodionov"
     github: "goruha"
+  - name: Vladimir Syromyatnikov
+    github: SweetOps
