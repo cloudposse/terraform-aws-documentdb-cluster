@@ -16,7 +16,7 @@ provider "aws" {
 
 module "vpc" {
   source  = "cloudposse/vpc/aws"
-  version = "0.20.1"
+  version = "0.27.0"
 
   cidr_block = var.vpc_cidr_block
 
@@ -25,7 +25,7 @@ module "vpc" {
 
 module "subnets" {
   source  = "cloudposse/dynamic-subnets/aws"
-  version = "0.37.0"
+  version = "0.39.6"
 
   availability_zones   = var.availability_zones
   vpc_id               = module.vpc.vpc_id
