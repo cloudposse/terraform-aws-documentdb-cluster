@@ -40,9 +40,9 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
 }
 
 resource "random_password" "password" {
-  count            = var.master_password != "" ? 0 : 1
-  length           = 16
-  special          = false
+  count   = var.master_password != "" ? 0 : 1
+  length  = 16
+  special = false
 }
 
 resource "aws_docdb_cluster" "default" {
