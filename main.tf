@@ -39,11 +39,17 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
   security_group_id = join("", aws_security_group.default.*.id)
 }
 
+resource "random_password" "password" {
+  count            = var.master_password != "" ? 0 : 1
+  length           = 16
+  special          = false
+}
+
 resource "aws_docdb_cluster" "default" {
   count                           = module.this.enabled ? 1 : 0
   cluster_identifier              = module.this.id
   master_username                 = var.master_username
-  master_password                 = var.master_password
+  master_password                 = var.master_password != "" ? var.master_password : random_password.password.result
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
   preferred_maintenance_window    = var.preferred_maintenance_window
