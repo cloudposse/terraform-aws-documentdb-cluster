@@ -49,7 +49,7 @@ resource "aws_docdb_cluster" "default" {
   count                           = module.this.enabled ? 1 : 0
   cluster_identifier              = module.this.id
   master_username                 = var.master_username
-  master_password                 = var.master_password != "" ? var.master_password : random_password.password.result
+  master_password                 = var.master_password != "" ? var.master_password : random_password.password[0].result
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
   preferred_maintenance_window    = var.preferred_maintenance_window
