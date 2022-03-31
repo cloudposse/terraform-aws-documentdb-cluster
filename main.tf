@@ -40,7 +40,7 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
 }
 
 resource "random_password" "password" {
-  count   = var.master_password != "" ? 0 : 1
+  count   = module.this.enabled && var.master_password != "" ? 0 : 1
   length  = 16
   special = false
 }
