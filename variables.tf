@@ -165,6 +165,6 @@ variable "reader_dns_name" {
 
 variable "global_cluster_identifier" {
   type        = string
-  description = "Name of the global cluster identifier this not generate a global cluster or add a new region. Use this only when the generated cluster added externally as member in a global cluster."
+  description = "Name of the global cluster identifier. This not generate a global cluster or add a new region. Use this only when the generated cluster by this module was promoted manually as primary cluster in a global cluster."
   default     = null
 }
