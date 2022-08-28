@@ -162,3 +162,9 @@ variable "reader_dns_name" {
   description = "Name of the reader endpoint CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `replicas.var.name`"
   default     = ""
 }
+
+variable "global_cluster_identifier" {
+  type        = string
+  description = "Name of the global cluster identifier this not generate a global cluster or add a new region. Use this only when the generated cluster added externally as member in a global cluster."
+  default     = null
+}

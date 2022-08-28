@@ -68,6 +68,7 @@ resource "aws_docdb_cluster" "default" {
   engine_version                  = var.engine_version
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   tags                            = module.this.tags
+  global_cluster_identifier       = var.global_cluster_identifier
 }
 
 resource "aws_docdb_cluster_instance" "default" {
