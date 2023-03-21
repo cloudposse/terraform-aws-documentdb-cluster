@@ -151,6 +151,12 @@ variable "enabled_cloudwatch_logs_exports" {
   default     = []
 }
 
+variable "create_subnet" {
+  type        = boolean
+  description = "Controls whether a new subnet/parameter group will be created"
+  default     = false
+}
+
 variable "cluster_dns_name" {
   type        = string
   description = "Name of the cluster CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `master.var.name`"
