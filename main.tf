@@ -9,11 +9,11 @@ resource "aws_security_group" "default" {
 resource "aws_security_group_rule" "egress" {
   count             = module.this.enabled ? 1 : 0
   type              = "egress"
-  description       = "Allow all egress traffic"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "Allow outbound traffic from CIDR blocks"
+  from_port         = var.egress_from_port
+  to_port           = var.egress_to_port
+  protocol          = var.egress_protocol
+  cidr_blocks       = var.allowed_egress_cidr_blocks
   security_group_id = join("", aws_security_group.default[*].id)
 }
 
