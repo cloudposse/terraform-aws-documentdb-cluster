@@ -71,15 +71,16 @@ resource "aws_docdb_cluster" "default" {
 }
 
 resource "aws_docdb_cluster_instance" "default" {
-  count                       = module.this.enabled ? var.cluster_size : 0
-  identifier                  = "${module.this.id}-${count.index + 1}"
-  cluster_identifier          = join("", aws_docdb_cluster.default.*.id)
-  apply_immediately           = var.apply_immediately
-  instance_class              = var.instance_class
-  engine                      = var.engine
-  auto_minor_version_upgrade  = var.auto_minor_version_upgrade
-  enable_performance_insights = var.enable_performance_insights
-  tags                        = module.this.tags
+  count                        = module.this.enabled ? var.cluster_size : 0
+  identifier                   = "${module.this.id}-${count.index + 1}"
+  cluster_identifier           = join("", aws_docdb_cluster.default.*.id)
+  apply_immediately            = var.apply_immediately
+  preferred_maintenance_window = var.preferred_maintenance_window
+  instance_class               = var.instance_class
+  engine                       = var.engine
+  auto_minor_version_upgrade   = var.auto_minor_version_upgrade
+  enable_performance_insights  = var.enable_performance_insights
+  tags                         = module.this.tags
 }
 
 resource "aws_docdb_subnet_group" "default" {
