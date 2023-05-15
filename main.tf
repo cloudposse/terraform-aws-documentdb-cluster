@@ -14,7 +14,7 @@ resource "aws_security_group_rule" "egress" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = join("", aws_security_group.default.*.id)
+  security_group_id = join("", aws_security_group.default[*].id)
 }
 
 resource "aws_security_group_rule" "ingress_security_groups" {
@@ -25,7 +25,7 @@ resource "aws_security_group_rule" "ingress_security_groups" {
   to_port                  = var.db_port
   protocol                 = "tcp"
   source_security_group_id = element(var.allowed_security_groups, count.index)
-  security_group_id        = join("", aws_security_group.default.*.id)
+  security_group_id        = join("", aws_security_group.default[*].id)
 }
 
 resource "aws_security_group_rule" "ingress_cidr_blocks" {
@@ -36,7 +36,7 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
   to_port           = var.db_port
   protocol          = "tcp"
   cidr_blocks       = var.allowed_cidr_blocks
-  security_group_id = join("", aws_security_group.default.*.id)
+  security_group_id = join("", aws_security_group.default[*].id)
 }
 
 resource "random_password" "password" {
@@ -61,9 +61,9 @@ resource "aws_docdb_cluster" "default" {
   kms_key_id                      = var.kms_key_id
   port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
-  vpc_security_group_ids          = [join("", aws_security_group.default.*.id)]
-  db_subnet_group_name            = join("", aws_docdb_subnet_group.default.*.name)
-  db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default.*.name)
+  vpc_security_group_ids          = [join("", aws_security_group.default[*].id)]
+  db_subnet_group_name            = join("", aws_docdb_subnet_group.default[*].name)
+  db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default[*].name)
   engine                          = var.engine
   engine_version                  = var.engine_version
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
@@ -73,7 +73,7 @@ resource "aws_docdb_cluster" "default" {
 resource "aws_docdb_cluster_instance" "default" {
   count                        = module.this.enabled ? var.cluster_size : 0
   identifier                   = "${module.this.id}-${count.index + 1}"
-  cluster_identifier           = join("", aws_docdb_cluster.default.*.id)
+  cluster_identifier           = join("", aws_docdb_cluster.default[*].id)
   apply_immediately            = var.apply_immediately
   preferred_maintenance_window = var.preferred_maintenance_window
   instance_class               = var.instance_class
@@ -124,7 +124,7 @@ module "dns_master" {
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.cluster_dns_name
   zone_id  = var.zone_id
-  records  = coalescelist(aws_docdb_cluster.default.*.endpoint, [""])
+  records  = coalescelist(aws_docdb_cluster.default[*].endpoint, [""])
 
   context = module.this.context
 }
@@ -136,7 +136,7 @@ module "dns_replicas" {
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.replicas_dns_name
   zone_id  = var.zone_id
-  records  = coalescelist(aws_docdb_cluster.default.*.reader_endpoint, [""])
+  records  = coalescelist(aws_docdb_cluster.default[*].reader_endpoint, [""])
 
   context = module.this.context
 }
