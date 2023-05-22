@@ -17,6 +17,17 @@ resource "aws_security_group_rule" "egress" {
   security_group_id = join("", aws_security_group.default[*].id)
 }
 
+resource "aws_security_group_rule" "allow_ingress_from_self" {
+  count                    = module.this.enabled && var.allow_ingress_from_self ? 1 : 0
+  type                     = "ingress"
+  description              = "Allow traffic within the security group"
+  from_port                = var.db_port
+  to_port                  = var.db_port
+  protocol                 = "tcp"
+  source_security_group_id = join("", aws_security_group.default[*].id)
+  security_group_id        = join("", aws_security_group.default[*].id)
+}
+
 resource "aws_security_group_rule" "ingress_security_groups" {
   count                    = module.this.enabled ? length(var.allowed_security_groups) : 0
   type                     = "ingress"
