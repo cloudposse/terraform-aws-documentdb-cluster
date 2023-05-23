@@ -24,8 +24,8 @@ resource "aws_security_group_rule" "allow_ingress_from_self" {
   from_port                = var.db_port
   to_port                  = var.db_port
   protocol                 = "tcp"
-  source_security_group_id = join("", aws_security_group.default[*].id)
   security_group_id        = join("", aws_security_group.default[*].id)
+  self                     = true
 }
 
 resource "aws_security_group_rule" "ingress_security_groups" {
