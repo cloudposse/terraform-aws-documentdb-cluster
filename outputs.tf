@@ -4,7 +4,7 @@ output "master_username" {
 }
 
 output "master_password" {
-  value       = join("", aws_docdb_cluster.default.*.master_password)
+  value       = join("", aws_docdb_cluster.default[*].master_password)
   description = "Password for the master DB user"
   sensitive   = true
 }
