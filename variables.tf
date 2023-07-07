@@ -174,3 +174,9 @@ variable "enable_performance_insights" {
   description = "Specifies whether to enable Performance Insights for the DB Instance."
   default     = false
 }
+
+variable "generate_master_password" {
+  description = "Set to true to allow DocumentDB to  the master user password in Secrets Manager. Cannot be set if `master_password` is provided"
+  type        = bool
+  default     = false
+}

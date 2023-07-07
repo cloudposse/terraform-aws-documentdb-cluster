@@ -51,7 +51,7 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
 }
 
 resource "random_password" "password" {
-  count   = module.this.enabled && var.master_password != "" ? 0 : 1
+  count   = module.this.enabled && var.generate_master_password ? 1 : 0
   length  = 16
   special = false
 }
@@ -60,7 +60,7 @@ resource "aws_docdb_cluster" "default" {
   count                           = module.this.enabled ? 1 : 0
   cluster_identifier              = module.this.id
   master_username                 = var.master_username
-  master_password                 = var.master_password != "" ? var.master_password : random_password.password[0].result
+  master_password                 = var.generate_master_password ? random_password.password[0].result : var.master_password
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
   preferred_maintenance_window    = var.preferred_maintenance_window
@@ -80,6 +80,8 @@ resource "aws_docdb_cluster" "default" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   tags                            = module.this.tags
 }
+
+manage_master_user_password   = var.global_cluster_identifier == null && var.manage_master_user_password ? var.manage_master_user_password : null
 
 resource "aws_docdb_cluster_instance" "default" {
   count                        = module.this.enabled ? var.cluster_size : 0
