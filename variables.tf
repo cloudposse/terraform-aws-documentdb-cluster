@@ -4,10 +4,40 @@ variable "zone_id" {
   description = "Route53 parent zone ID. If provided (not empty), the module will create sub-domain DNS records for the DocumentDB master and replicas"
 }
 
+variable "egress_from_port" {
+  type        = number
+  default     = 0
+  description = "[from_port]DocumentDB initial port range for egress (e.g. `0`)"
+}
+
+variable "egress_to_port" {
+  type        = number
+  default     = 0
+  description = "[to_port]DocumentDB initial port range for egress (e.g. `65535`)"
+}
+
+variable "egress_protocol" {
+  type        = string
+  default     = "-1"
+  description = "DocumentDB protocol for egress (e.g. `-1`, `tcp`)"
+}
+
+variable "allowed_egress_cidr_blocks" {
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+  description = "List of CIDR blocks to be allowed to send traffic outside of the DocumentDB cluster"
+}
+
 variable "allowed_security_groups" {
   type        = list(string)
   default     = []
   description = "List of existing Security Groups to be allowed to connect to the DocumentDB cluster"
+}
+
+variable "allow_ingress_from_self" {
+  type        = bool
+  default     = false
+  description = "Adds the Document DB security group itself as a source for ingress rules. Useful when this security group will be shared with applications."
 }
 
 variable "allowed_cidr_blocks" {
@@ -161,4 +191,10 @@ variable "reader_dns_name" {
   type        = string
   description = "Name of the reader endpoint CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `replicas.var.name`"
   default     = ""
+}
+
+variable "enable_performance_insights" {
+  type        = bool
+  description = "Specifies whether to enable Performance Insights for the DB Instance."
+  default     = false
 }
