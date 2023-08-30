@@ -72,7 +72,7 @@ resource "aws_docdb_cluster" "default" {
   kms_key_id                      = var.kms_key_id
   port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
-  vpc_security_group_ids          = [join("", aws_security_group.default[*].id)]
+  vpc_security_group_ids          = concat([join("", aws_security_group.default[*].id)], var.external_security_group_id_list)
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default[*].name)
   db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default[*].name)
   engine                          = var.engine

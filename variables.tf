@@ -46,6 +46,12 @@ variable "allowed_cidr_blocks" {
   description = "List of CIDR blocks to be allowed to connect to the DocumentDB cluster"
 }
 
+variable "external_security_group_id_list" {
+  type        = list(string)
+  default     = []
+  description = "List of external security group IDs to attach to the Document DB"
+}
+
 variable "vpc_id" {
   type        = string
   description = "VPC ID to create the cluster in (e.g. `vpc-a22222ee`)"
