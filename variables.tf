@@ -198,3 +198,9 @@ variable "enable_performance_insights" {
   description = "Specifies whether to enable Performance Insights for the DB Instance."
   default     = false
 }
+
+variable "ca_cert_identifier" {
+  type        = string
+  description = "The identifier of the CA certificate for the DB instance"
+  default     = null
+}

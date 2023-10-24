@@ -91,6 +91,7 @@ resource "aws_docdb_cluster_instance" "default" {
   engine                       = var.engine
   auto_minor_version_upgrade   = var.auto_minor_version_upgrade
   enable_performance_insights  = var.enable_performance_insights
+  ca_cert_identifier           = var.ca_cert_identifier
   tags                         = module.this.tags
 }
 
