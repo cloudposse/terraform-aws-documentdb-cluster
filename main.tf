@@ -152,3 +152,20 @@ module "dns_replicas" {
 
   context = module.this.context
 }
+
+module "ssm_write_db_password" {
+  source  = "cloudposse/ssm-parameter-store/aws"
+  version = "0.11.0"
+
+  enabled = module.this.enabled && var.ssm_parameter_enabled == true ? true : false
+  parameter_write = [
+    {
+      name        = format("%s%s", var.ssm_parameter_path_prefix, module.this.id)
+      value       = var.master_password != "" ? var.master_password : random_password.password[0].result
+      type        = "SecureString"
+      description = "Master password for ${module.this.id} DocumentDB cluster"
+    }
+  ]
+
+  context = module.this.context
+}

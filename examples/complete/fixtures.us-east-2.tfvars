@@ -35,3 +35,5 @@ storage_encrypted = true
 skip_final_snapshot = true
 
 apply_immediately = true
+
+ssm_parameter_enabled = true

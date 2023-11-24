@@ -204,3 +204,15 @@ variable "ca_cert_identifier" {
   description = "The identifier of the CA certificate for the DB instance"
   default     = null
 }
+
+variable "ssm_parameter_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether an SSM parameter store value is created to store the database password."
+}
+
+variable "ssm_parameter_path_prefix" {
+  type        = string
+  default     = "/docdb/master-password/"
+  description = "The path prefix for the created SSM parameter e.g. '/docdb/master-password/dev'. `ssm_parameter_enabled` must be set to `true` for this to take affect."
+}

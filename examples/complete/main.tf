@@ -65,6 +65,7 @@ module "documentdb_cluster" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   cluster_dns_name                = var.cluster_dns_name
   reader_dns_name                 = var.reader_dns_name
+  ssm_parameter_enabled           = var.ssm_parameter_enabled
 
   context = module.this.context
 }
