@@ -46,6 +46,12 @@ variable "allowed_cidr_blocks" {
   description = "List of CIDR blocks to be allowed to connect to the DocumentDB cluster"
 }
 
+variable "external_security_group_id_list" {
+  type        = list(string)
+  default     = []
+  description = "List of external security group IDs to attach to the Document DB"
+}
+
 variable "vpc_id" {
   type        = string
   description = "VPC ID to create the cluster in (e.g. `vpc-a22222ee`)"
@@ -197,4 +203,22 @@ variable "enable_performance_insights" {
   type        = bool
   description = "Specifies whether to enable Performance Insights for the DB Instance."
   default     = false
+}
+
+variable "ca_cert_identifier" {
+  type        = string
+  description = "The identifier of the CA certificate for the DB instance"
+  default     = null
+}
+
+variable "ssm_parameter_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether an SSM parameter store value is created to store the database password."
+}
+
+variable "ssm_parameter_path_prefix" {
+  type        = string
+  default     = "/docdb/master-password/"
+  description = "The path prefix for the created SSM parameter e.g. '/docdb/master-password/dev'. `ssm_parameter_enabled` must be set to `true` for this to take affect."
 }

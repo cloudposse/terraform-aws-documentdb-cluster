@@ -72,7 +72,7 @@ resource "aws_docdb_cluster" "default" {
   kms_key_id                      = var.kms_key_id
   port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
-  vpc_security_group_ids          = [join("", aws_security_group.default[*].id)]
+  vpc_security_group_ids          = concat([join("", aws_security_group.default[*].id)], var.external_security_group_id_list)
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default[*].name)
   db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default[*].name)
   engine                          = var.engine
@@ -91,6 +91,7 @@ resource "aws_docdb_cluster_instance" "default" {
   engine                       = var.engine
   auto_minor_version_upgrade   = var.auto_minor_version_upgrade
   enable_performance_insights  = var.enable_performance_insights
+  ca_cert_identifier           = var.ca_cert_identifier
   tags                         = module.this.tags
 }
 
@@ -148,6 +149,23 @@ module "dns_replicas" {
   dns_name = local.replicas_dns_name
   zone_id  = var.zone_id
   records  = coalescelist(aws_docdb_cluster.default[*].reader_endpoint, [""])
+
+  context = module.this.context
+}
+
+module "ssm_write_db_password" {
+  source  = "cloudposse/ssm-parameter-store/aws"
+  version = "0.11.0"
+
+  enabled = module.this.enabled && var.ssm_parameter_enabled == true ? true : false
+  parameter_write = [
+    {
+      name        = format("%s%s", var.ssm_parameter_path_prefix, module.this.id)
+      value       = var.master_password != "" ? var.master_password : random_password.password[0].result
+      type        = "SecureString"
+      description = "Master password for ${module.this.id} DocumentDB cluster"
+    }
+  ]
 
   context = module.this.context
 }
