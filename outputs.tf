@@ -15,7 +15,7 @@ output "cluster_name" {
 }
 
 output "instance_name" {
-  value       = toset(aws_docdb_cluster_instance.default.*.identifier)
+  value       = toset(aws_docdb_cluster_instance.default[*].identifier)
   description = "Cluster Instance Identifier"
 }
 
