@@ -151,6 +151,17 @@ variable "storage_encrypted" {
   default     = true
 }
 
+variable "storage_type" {
+  type        = string
+  description = "The storage type to associate with the DB cluster. Valid values: standard, iopt1"
+  default     = "standard"
+
+  validation {
+    condition     = contains(["standard", "iopt1"], var.storage_type)
+    error_message = "Error: storage_type value must be one of two options - 'standard' or 'iopt1'."
+  }
+}
+
 variable "kms_key_id" {
   type        = string
   description = "The ARN for the KMS encryption key. When specifying `kms_key_id`, `storage_encrypted` needs to be set to `true`"

@@ -69,6 +69,7 @@ resource "aws_docdb_cluster" "default" {
   deletion_protection             = var.deletion_protection
   apply_immediately               = var.apply_immediately
   storage_encrypted               = var.storage_encrypted
+  storage_type                    = var.storage_type
   kms_key_id                      = var.kms_key_id
   port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
