@@ -21,7 +21,7 @@
 |------|--------|---------|
 | <a name="module_dns_master"></a> [dns\_master](#module\_dns\_master) | cloudposse/route53-cluster-hostname/aws | 0.12.2 |
 | <a name="module_dns_replicas"></a> [dns\_replicas](#module\_dns\_replicas) | cloudposse/route53-cluster-hostname/aws | 0.12.2 |
-| <a name="module_ssm_write_db_password"></a> [ssm\_write\_db\_password](#module\_ssm\_write\_db\_password) | cloudposse/ssm-parameter-store/aws | 0.11.0 |
+| <a name="module_ssm_write_db_password"></a> [ssm\_write\_db\_password](#module\_ssm\_write\_db\_password) | cloudposse/ssm-parameter-store/aws | 0.12.0 |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
 
 ## Resources
