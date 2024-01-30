@@ -156,7 +156,7 @@ module "dns_replicas" {
 
 module "ssm_write_db_password" {
   source  = "cloudposse/ssm-parameter-store/aws"
-  version = "0.11.0"
+  version = "0.12.0"
 
   enabled = module.this.enabled && var.ssm_parameter_enabled == true ? true : false
   parameter_write = [
