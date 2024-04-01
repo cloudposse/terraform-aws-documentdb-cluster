@@ -1,0 +1,7 @@
+# Upstream changes from _extends are only recognized when modifications are made to this file in the default branch.
+_extends: .github
+repository:
+  name: terraform-aws-documentdb-cluster
+  description: Terraform module to provision a DocumentDB cluster on AWS
+  homepage: https://cloudposse.com/accelerate
+  topics: mongodb, documentdb-cluster, documentdb, json, database, hcl2
