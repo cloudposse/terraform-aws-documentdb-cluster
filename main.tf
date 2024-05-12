@@ -79,6 +79,7 @@ resource "aws_docdb_cluster" "default" {
   engine                          = var.engine
   engine_version                  = var.engine_version
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
+  allow_major_version_upgrade     = var.allow_major_version_upgrade
   tags                            = module.this.tags
 }
 

@@ -233,3 +233,9 @@ variable "ssm_parameter_path_prefix" {
   default     = "/docdb/master-password/"
   description = "The path prefix for the created SSM parameter e.g. '/docdb/master-password/dev'. `ssm_parameter_enabled` must be set to `true` for this to take affect."
 }
+
+variable "allow_major_version_upgrade" {
+  type        = bool
+  description = "Specifies whether major version upgrades are allowed. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#allow_major_version_upgrade"
+  default     = false
+}
