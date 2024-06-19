@@ -6,10 +6,34 @@ import (
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
+	"k8s.io/apimachinery/pkg/util/runtime"
 )
 
 // Test the Terraform module in examples/complete using Terratest.
-func testExamplesComplete(t *testing.T, terraformOptions *terraform.Options, randID string, _ string) {
+func TestExamplesComplete(t *testing.T) {
+	t.Parallel()
+
+	// Test input variables
+	vars := &map[string]interface{}{}
+
+	// Terraform options and variables preparation
+	randID := generateUniqueID()
+	testFolder := createTestFolder(t)
+	terraformOptions := buildTerraformOptions(randID, vars, testFolder)
+
+	// Deferred cleanup steps
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer cleanup(t, terraformOptions, testFolder)
+
+	// If Go runtime crashes, run `terraform destroy` to clean up any resources that were created
+	defer runtime.HandleCrash(func(i interface{}) {
+		terraform.Destroy(t, terraformOptions)
+	})
+
+	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
+	terraform.InitAndApply(t, terraformOptions)
+
 	// Run `terraform output` to get the value of an output variable
 	vpcCidr := terraform.Output(t, terraformOptions, "vpc_cidr")
 	// Verify we're getting back the outputs we expect
@@ -46,7 +70,34 @@ func testExamplesComplete(t *testing.T, terraformOptions *terraform.Options, ran
 	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster-"+randID+".cluster-ro")
 }
 
-func testExamplesCompleteDisabled(t *testing.T, terraformOptions *terraform.Options, randID string, results string) {
+func TestExamplesCompleteDisabled(t *testing.T) {
+	t.Parallel()
+
+	// Test input variables
+	vars := &map[string]interface{}{
+		"enabled": false,
+	}
+
+	// Terraform options and variables preparation
+	randID := generateUniqueID()
+	testFolder := createTestFolder(t)
+	terraformOptions := buildTerraformOptions(randID, vars, testFolder)
+
+	// Deferred cleanup steps
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer cleanup(t, terraformOptions, testFolder)
+
+	// If Go runtime crashes, run `terraform destroy` to clean up any resources that were created
+	defer runtime.HandleCrash(func(i interface{}) {
+		terraform.Destroy(t, terraformOptions)
+	})
+
+	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
+	results := terraform.InitAndApply(t, terraformOptions)
+
+	// Output validation steps
+
 	// Should complete successfully without creating or changing any resources.
 	// Extract the "Resources:" section of the output to make the error message more readable.
 	re := regexp.MustCompile(`Resources: [^.]+\.`)

@@ -10,19 +10,13 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	testStructure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
-	"k8s.io/apimachinery/pkg/util/runtime"
 )
 
-// Test the Terraform module in examples/complete using Terratest.
-func testRunner(t *testing.T, vars *map[string]interface{}, testFunc func(t *testing.T, terraformOptions *terraform.Options, randID string, results string)) {
-	randID := strings.ToLower(random.UniqueId())
-	attributes := []string{randID}
-
-	rootFolder := "../../"
-	terraformFolderRelativeToRoot := "examples/complete"
+// buildTerraformOptions builds the struct terraform.Options required to run Terraform commands
+func buildTerraformOptions(randID string, vars *map[string]interface{}, tempTestFolder string) *terraform.Options {
 	varFiles := []string{"fixtures.us-east-2.tfvars"}
 
-	tempTestFolder := testStructure.CopyTerraformFolderToTemp(t, rootFolder, terraformFolderRelativeToRoot)
+	attributes := []string{randID}
 
 	if vars == nil {
 		vars = &map[string]interface{}{
@@ -46,22 +40,26 @@ func testRunner(t *testing.T, vars *map[string]interface{}, testFunc func(t *tes
 		terraformOptions.Logger = logger.Discard
 	}
 
-	// At the end of the test, run `terraform destroy` to clean up any resources that were created
-	defer cleanup(t, terraformOptions, tempTestFolder)
-
-	// If Go runtime crashes, run `terraform destroy` to clean up any resources that were created
-	defer runtime.HandleCrash(func(i interface{}) {
-		terraform.Destroy(t, terraformOptions)
-	})
-
-	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	results := terraform.InitAndApply(t, terraformOptions)
-
-	testFunc(t, terraformOptions, randID, results)
+	return terraformOptions
 }
 
-func cleanup(t *testing.T, terraformOptions *terraform.Options, tempTestFolder string) {
+// cleanup deletes the test folder and destroys the resources created by the test
+func cleanup(t *testing.T, terraformOptions *terraform.Options, testFolder string) {
 	terraform.Destroy(t, terraformOptions)
-	err := os.RemoveAll(tempTestFolder)
+	
+	err := os.RemoveAll(testFolder)
 	assert.NoError(t, err)
+}
+
+// generateUniqueID generates a unique ID that is used to identify resources
+func generateUniqueID() string {
+	return strings.ToLower(random.UniqueId())
+}
+
+// createTestFolder creates a folder to store the Terraform code used in the test
+func createTestFolder(t *testing.T) string {
+	rootFolder := "../../"
+	terraformFolderRelativeToRoot := "examples/complete"
+
+	return testStructure.CopyTerraformFolderToTemp(t, rootFolder, terraformFolderRelativeToRoot)
 }
