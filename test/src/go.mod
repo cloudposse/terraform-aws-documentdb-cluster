@@ -5,6 +5,7 @@ go 1.21
 require (
 	github.com/gruntwork-io/terratest v0.31.1
 	github.com/stretchr/testify v1.5.1
+	k8s.io/apimachinery v0.19.3
 )
 
 require (
@@ -48,7 +49,6 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 	k8s.io/api v0.19.3 // indirect
-	k8s.io/apimachinery v0.19.3 // indirect
 	k8s.io/client-go v0.19.3 // indirect
 	k8s.io/klog/v2 v2.2.0 // indirect
 	k8s.io/utils v0.0.0-20200729134348-d5654de09c73 // indirect
