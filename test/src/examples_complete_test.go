@@ -1,9 +1,9 @@
 package test
 
 import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/docdb"
+	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/docdb"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -48,13 +48,18 @@ func testExamplesComplete(t *testing.T, terraformOptions *terraform.Options, ran
 	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster-"+randID+".cluster-ro")
 
 	// Assert that AWS says the cluster is available
-	awsSession := session.Must(session.NewSession())
-	docdbSvc := docdb.New(awsSession)
+	docdbSvc := docdb.NewFromConfig(AWSConfig())
 
 	// Describe the cluster
-	result, err := docdbSvc.DescribeDBClusters(&docdb.DescribeDBClustersInput{
-		DBClusterIdentifier: aws.String(clusterName),
+	result, err := docdbSvc.DescribeDBClusters(context.TODO(), &docdb.DescribeDBClustersInput{
+		DBClusterIdentifier: &clusterName,
 	})
 	assert.NoError(t, err)
-	assert.Equal(t, "available", *result.DBClusters[0].Status, "Cluster is not in an available state")
+
+	// Check if the slice is not empty and the status is available
+	if len(result.DBClusters) > 0 {
+		assert.Equal(t, "available", aws.ToString(result.DBClusters[0].Status), "Cluster is not in an available state")
+	} else {
+		assert.Fail(t, "No clusters found or cluster data is incomplete")
+	}
 }

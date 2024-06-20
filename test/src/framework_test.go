@@ -7,6 +7,8 @@ import (
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	testStructure "github.com/gruntwork-io/terratest/modules/test-structure"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/runtime"
@@ -86,8 +88,15 @@ func explicitTestRunner(t *testing.T, terraformOptions *terraform.Options,
 }
 
 func cleanup(t *testing.T, terraformOptions *terraform.Options, tempTestFolder string) {
-	terraform.Destroy(t, terraformOptions)
-	_ = os.RemoveAll(tempTestFolder)
+	t.Logf("Cleanup running Terraform destroy in folder %s\n", tempTestFolder)
+	// If Destroy fails, it will log the error, so we do not need to log it again,
+	// but we want to fail immediately rather than delete the temp folder, so we
+	// have a chance to inspect the state, fix what went wrong, and destroy the resources.
+	if _, err := terraform.DestroyE(t, terraformOptions); err != nil {
+		require.FailNow(t, "Terraform destroy failed.\nNot deleting temp test folder (%s)", tempTestFolder)
+	}
+	err := os.RemoveAll(tempTestFolder)
+	assert.NoError(t, err)
 }
 
 // EKS support
