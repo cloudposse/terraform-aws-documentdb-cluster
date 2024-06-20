@@ -1,38 +1,16 @@
 package test
 
 import (
-	"regexp"
-	"testing"
-
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/docdb"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
-	"k8s.io/apimachinery/pkg/util/runtime"
+	"testing"
 )
 
 // Test the Terraform module in examples/complete using Terratest.
-func TestExamplesComplete(t *testing.T) {
-	t.Parallel()
-
-	// Test input variables
-	vars := &map[string]interface{}{}
-
-	// Terraform options and variables preparation
-	randID := generateUniqueID()
-	testFolder := createTestFolder(t)
-	terraformOptions := buildTerraformOptions(randID, vars, testFolder)
-
-	// Deferred cleanup steps
-
-	// At the end of the test, run `terraform destroy` to clean up any resources that were created
-	defer cleanup(t, terraformOptions, testFolder)
-
-	// If Go runtime crashes, run `terraform destroy` to clean up any resources that were created
-	defer runtime.HandleCrash(func(i interface{}) {
-		terraform.Destroy(t, terraformOptions)
-	})
-
-	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.InitAndApply(t, terraformOptions)
+func testExamplesComplete(t *testing.T, terraformOptions *terraform.Options, randID string, _ string) {
 
 	// Run `terraform output` to get the value of an output variable
 	vpcCidr := terraform.Output(t, terraformOptions, "vpc_cidr")
@@ -68,39 +46,15 @@ func TestExamplesComplete(t *testing.T) {
 	readerEndpoint := terraform.Output(t, terraformOptions, "reader_endpoint")
 	// Verify we're getting back the outputs we expect
 	assert.Contains(t, readerEndpoint, "eg-test-documentdb-cluster-"+randID+".cluster-ro")
-}
 
-func TestExamplesCompleteDisabled(t *testing.T) {
-	t.Parallel()
+	// Assert that AWS says the cluster is available
+	awsSession := session.Must(session.NewSession())
+	docdbSvc := docdb.New(awsSession)
 
-	// Test input variables
-	vars := &map[string]interface{}{
-		"enabled": false,
-	}
-
-	// Terraform options and variables preparation
-	randID := generateUniqueID()
-	testFolder := createTestFolder(t)
-	terraformOptions := buildTerraformOptions(randID, vars, testFolder)
-
-	// Deferred cleanup steps
-
-	// At the end of the test, run `terraform destroy` to clean up any resources that were created
-	defer cleanup(t, terraformOptions, testFolder)
-
-	// If Go runtime crashes, run `terraform destroy` to clean up any resources that were created
-	defer runtime.HandleCrash(func(i interface{}) {
-		terraform.Destroy(t, terraformOptions)
+	// Describe the cluster
+	result, err := docdbSvc.DescribeDBClusters(&docdb.DescribeDBClustersInput{
+		DBClusterIdentifier: aws.String(clusterName),
 	})
-
-	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	results := terraform.InitAndApply(t, terraformOptions)
-
-	// Output validation steps
-
-	// Should complete successfully without creating or changing any resources.
-	// Extract the "Resources:" section of the output to make the error message more readable.
-	re := regexp.MustCompile(`Resources: [^.]+\.`)
-	match := re.FindString(results)
-	assert.Equal(t, "Resources: 0 added, 0 changed, 0 destroyed.", match, "Re-applying the same configuration should not change any resources")
+	assert.NoError(t, err)
+	assert.Equal(t, "available", *result.DBClusters[0].Status, "Cluster is not in an available state")
 }
