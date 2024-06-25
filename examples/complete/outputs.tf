@@ -23,6 +23,11 @@ output "cluster_name" {
   description = "DocumentDB Cluster Identifier"
 }
 
+output "instance_name" {
+  value       = module.documentdb_cluster.instance_name
+  description = "DocumentDB Cluster Instance Identifier"
+}
+
 output "arn" {
   value       = module.documentdb_cluster.arn
   description = "Amazon Resource Name (ARN) of the DocumentDB cluster"
