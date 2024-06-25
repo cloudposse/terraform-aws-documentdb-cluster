@@ -1,3 +1,9 @@
+// This file is a work-in-progress proposed set of `go` Test wrappers
+// to be standardized across all Cloud Posse Terraform modules.
+// This is likely to change, especially as we move from local helpers
+// to Terratest helpers.
+// This file should be considered a temporary solution as of June 2024 and should not be duplicated
+
 package test
 
 import (

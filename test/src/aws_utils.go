@@ -1,3 +1,9 @@
+// This file is a work-in-progress proposed set of utility functions
+// to be standardized across all Cloud Posse Terraform modules.
+// Most, if not all, of these functions will be replaced by
+// Terratest functions as they become available.
+// This file should be considered a temporary solution as of June 2024 and should not be duplicated
+
 package test
 
 // Support AWS operations
