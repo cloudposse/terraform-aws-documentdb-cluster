@@ -132,7 +132,7 @@ locals {
 
 module "dns_master" {
   source  = "cloudposse/route53-cluster-hostname/aws"
-  version = "0.12.2"
+  version = "0.13.0"
 
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.cluster_dns_name
@@ -144,7 +144,7 @@ module "dns_master" {
 
 module "dns_replicas" {
   source  = "cloudposse/route53-cluster-hostname/aws"
-  version = "0.12.2"
+  version = "0.13.0"
 
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   dns_name = local.replicas_dns_name
@@ -156,7 +156,7 @@ module "dns_replicas" {
 
 module "ssm_write_db_password" {
   source  = "cloudposse/ssm-parameter-store/aws"
-  version = "0.11.0"
+  version = "0.13.0"
 
   enabled = module.this.enabled && var.ssm_parameter_enabled == true ? true : false
   parameter_write = [
