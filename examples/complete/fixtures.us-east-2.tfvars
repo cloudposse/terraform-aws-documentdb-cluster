@@ -31,6 +31,8 @@ engine = "docdb"
 
 storage_encrypted = true
 
+storage_type = "standard"
+
 skip_final_snapshot = true
 
 apply_immediately = true
