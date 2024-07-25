@@ -60,6 +60,7 @@ module "documentdb_cluster" {
   engine                          = var.engine
   engine_version                  = var.engine_version
   storage_encrypted               = var.storage_encrypted
+  storage_type                    = var.storage_type
   kms_key_id                      = var.kms_key_id
   skip_final_snapshot             = var.skip_final_snapshot
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
