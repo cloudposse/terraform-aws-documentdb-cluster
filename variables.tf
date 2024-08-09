@@ -81,6 +81,12 @@ variable "snapshot_identifier" {
   description = "Specifies whether or not to create this cluster from a snapshot. You can use either the name or ARN when specifying a DB cluster snapshot, or the ARN when specifying a DB snapshot"
 }
 
+variable "final_snapshot_identifier" {
+  type        = string
+  default     = ""
+  description = "Name of the final DB snapshot, if skip_final_snapshot is false."
+}
+
 variable "db_port" {
   type        = number
   default     = 27017
