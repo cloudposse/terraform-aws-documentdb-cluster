@@ -64,7 +64,7 @@ resource "aws_docdb_cluster" "default" {
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
   preferred_maintenance_window    = var.preferred_maintenance_window
-  final_snapshot_identifier       = lower(module.this.id)
+  final_snapshot_identifier       = var.final_snapshot_identifier != "" ? var.final_snapshot_identifier : lower(module.this.id)
   skip_final_snapshot             = var.skip_final_snapshot
   deletion_protection             = var.deletion_protection
   apply_immediately               = var.apply_immediately
