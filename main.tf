@@ -124,6 +124,16 @@ resource "aws_docdb_cluster_parameter_group" "default" {
   tags = module.this.tags
 }
 
+resource "aws_docdb_event_subscription" "default" {
+  count            = module.this.enabled && var.sns_topic_arn != null ? 1 : 0
+  name             = var.name
+  enabled          = true
+  event_categories = ["creation", "failure"]
+  source_type      = "db-cluster"
+  source_ids       = [aws_docdb_cluster.default[0].id]
+  sns_topic_arn    = var.sns_topic_arn
+}
+
 locals {
   cluster_dns_name_default  = "master.${module.this.name}"
   cluster_dns_name          = var.cluster_dns_name != "" ? var.cluster_dns_name : local.cluster_dns_name_default
