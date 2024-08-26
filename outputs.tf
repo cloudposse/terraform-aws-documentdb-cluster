@@ -30,8 +30,8 @@ output "reader_endpoint" {
 }
 
 output "cluster_members" {
-  value = aws_docdb_cluster.default[*].cluster_members
-  description = "List of lists of DocumentDB Instances that are a part of this cluster"
+  value = flatten(aws_docdb_cluster.default[*].cluster_members)
+  description = "List of DocumentDB Instances that are a part of this cluster"
 }
 
 output "master_host" {
