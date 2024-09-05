@@ -29,6 +29,11 @@ output "reader_endpoint" {
   description = "A read-only endpoint of the DocumentDB cluster, automatically load-balanced across replicas"
 }
 
+output "cluster_members" {
+  value       = flatten(aws_docdb_cluster.default[*].cluster_members)
+  description = "List of DocumentDB Instances that are a part of this cluster"
+}
+
 output "master_host" {
   value       = module.dns_master.hostname
   description = "DB master hostname"
