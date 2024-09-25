@@ -30,7 +30,7 @@ output "reader_endpoint" {
 }
 
 output "cluster_members" {
-  value = flatten(aws_docdb_cluster.default[*].cluster_members)
+  value       = flatten(aws_docdb_cluster.default[*].cluster_members)
   description = "List of DocumentDB Instances that are a part of this cluster"
 }
 
