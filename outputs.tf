@@ -60,6 +60,6 @@ output "security_group_name" {
 }
 
 output "instance_class" {
-  description = "The instance calss used by the DocumentDB Cluster. For more details, see https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs"
-  value       = distinct([for instance in aws_docdb_cluster_instance.default : instance.instance_class])[0]
+  description = "The instance class used by the DocumentDB Cluster. For more details, see https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs"
+  value       = var.instance_class
 }
