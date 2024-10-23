@@ -207,6 +207,7 @@ Available targets:
 | <a name="output_cluster_members"></a> [cluster\_members](#output\_cluster\_members) | List of DocumentDB Instances that are a part of this cluster |
 | <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | Cluster Identifier |
 | <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | Endpoint of the DocumentDB cluster |
+| <a name="output_instance_name"></a> [instance\_name](#output\_instance\_name) | Cluster Instance Identifier |
 | <a name="output_master_host"></a> [master\_host](#output\_master\_host) | DB master hostname |
 | <a name="output_master_password"></a> [master\_password](#output\_master\_password) | Password for the master DB user |
 | <a name="output_master_username"></a> [master\_username](#output\_master\_username) | Username for the master DB user |
