@@ -1,5 +1,5 @@
 locals {
-  enabled = local.enabled
+  enabled = module.this.enabled
 }
 
 resource "aws_security_group" "default" {
