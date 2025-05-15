@@ -1,5 +1,6 @@
 locals {
-  enabled = module.this.enabled
+  enabled         = module.this.enabled
+  create_password = local.enabled && length(var.master_password) == 0
 }
 
 resource "aws_security_group" "default" {
@@ -55,7 +56,7 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
 }
 
 resource "random_password" "password" {
-  count   = local.enabled && var.master_password == "" ? 1 : 0
+  count   = local.enabled && local.create_password ? 1 : 0
   length  = 16
   special = false
 }
