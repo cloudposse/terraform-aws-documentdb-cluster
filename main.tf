@@ -1,5 +1,10 @@
+locals {
+  enabled         = module.this.enabled
+  create_password = local.enabled && length(var.master_password) == 0
+}
+
 resource "aws_security_group" "default" {
-  count       = module.this.enabled ? 1 : 0
+  count       = local.enabled ? 1 : 0
   name        = module.this.id
   description = "Security Group for DocumentDB cluster"
   vpc_id      = var.vpc_id
@@ -7,7 +12,7 @@ resource "aws_security_group" "default" {
 }
 
 resource "aws_security_group_rule" "egress" {
-  count             = module.this.enabled ? 1 : 0
+  count             = local.enabled ? 1 : 0
   type              = "egress"
   description       = "Allow outbound traffic from CIDR blocks"
   from_port         = var.egress_from_port
@@ -18,7 +23,7 @@ resource "aws_security_group_rule" "egress" {
 }
 
 resource "aws_security_group_rule" "allow_ingress_from_self" {
-  count             = module.this.enabled && var.allow_ingress_from_self ? 1 : 0
+  count             = local.enabled && var.allow_ingress_from_self ? 1 : 0
   type              = "ingress"
   description       = "Allow traffic within the security group"
   from_port         = var.db_port
@@ -29,7 +34,7 @@ resource "aws_security_group_rule" "allow_ingress_from_self" {
 }
 
 resource "aws_security_group_rule" "ingress_security_groups" {
-  count                    = module.this.enabled ? length(var.allowed_security_groups) : 0
+  count                    = local.enabled ? length(var.allowed_security_groups) : 0
   type                     = "ingress"
   description              = "Allow inbound traffic from existing Security Groups"
   from_port                = var.db_port
@@ -41,7 +46,7 @@ resource "aws_security_group_rule" "ingress_security_groups" {
 
 resource "aws_security_group_rule" "ingress_cidr_blocks" {
   type              = "ingress"
-  count             = module.this.enabled && length(var.allowed_cidr_blocks) > 0 ? 1 : 0
+  count             = local.enabled && length(var.allowed_cidr_blocks) > 0 ? 1 : 0
   description       = "Allow inbound traffic from CIDR blocks"
   from_port         = var.db_port
   to_port           = var.db_port
@@ -51,13 +56,13 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
 }
 
 resource "random_password" "password" {
-  count   = module.this.enabled && var.master_password == "" ? 1 : 0
+  count   = local.enabled && local.create_password ? 1 : 0
   length  = 16
   special = false
 }
 
 resource "aws_docdb_cluster" "default" {
-  count                           = module.this.enabled ? 1 : 0
+  count                           = local.enabled ? 1 : 0
   cluster_identifier              = module.this.id
   master_username                 = var.master_username
   master_password                 = var.master_password != "" ? var.master_password : random_password.password[0].result
@@ -84,7 +89,7 @@ resource "aws_docdb_cluster" "default" {
 }
 
 resource "aws_docdb_cluster_instance" "default" {
-  count                        = module.this.enabled ? var.cluster_size : 0
+  count                        = local.enabled ? var.cluster_size : 0
   identifier                   = "${module.this.id}-${count.index + 1}"
   cluster_identifier           = join("", aws_docdb_cluster.default[*].id)
   apply_immediately            = var.apply_immediately
@@ -98,7 +103,7 @@ resource "aws_docdb_cluster_instance" "default" {
 }
 
 resource "aws_docdb_subnet_group" "default" {
-  count       = module.this.enabled ? 1 : 0
+  count       = local.enabled ? 1 : 0
   name        = module.this.id
   description = "Allowed subnets for DB cluster instances"
   subnet_ids  = var.subnet_ids
@@ -107,7 +112,7 @@ resource "aws_docdb_subnet_group" "default" {
 
 # https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
 resource "aws_docdb_cluster_parameter_group" "default" {
-  count       = module.this.enabled ? 1 : 0
+  count       = local.enabled ? 1 : 0
   name        = module.this.id
   description = "DB cluster parameter group"
   family      = var.cluster_family
@@ -135,7 +140,7 @@ module "dns_master" {
   source  = "cloudposse/route53-cluster-hostname/aws"
   version = "0.13.0"
 
-  enabled  = module.this.enabled && var.zone_id != "" ? true : false
+  enabled  = local.enabled && var.zone_id != "" ? true : false
   dns_name = local.cluster_dns_name
   zone_id  = var.zone_id
   records  = coalescelist(aws_docdb_cluster.default[*].endpoint, [""])
@@ -147,7 +152,7 @@ module "dns_replicas" {
   source  = "cloudposse/route53-cluster-hostname/aws"
   version = "0.13.0"
 
-  enabled  = module.this.enabled && var.zone_id != "" ? true : false
+  enabled  = local.enabled && var.zone_id != "" ? true : false
   dns_name = local.replicas_dns_name
   zone_id  = var.zone_id
   records  = coalescelist(aws_docdb_cluster.default[*].reader_endpoint, [""])
@@ -159,7 +164,7 @@ module "ssm_write_db_password" {
   source  = "cloudposse/ssm-parameter-store/aws"
   version = "0.13.0"
 
-  enabled = module.this.enabled && var.ssm_parameter_enabled == true ? true : false
+  enabled = local.enabled && var.ssm_parameter_enabled == true ? true : false
   parameter_write = [
     {
       name        = format("%s%s", var.ssm_parameter_path_prefix, module.this.id)
