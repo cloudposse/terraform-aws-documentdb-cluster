@@ -1,6 +1,8 @@
 locals {
   enabled         = module.this.enabled
-  create_password = local.enabled && length(var.master_password) == 0
+  create_password = local.enabled && var.master_password == null
+
+  master_password = local.create_password ? one(random_password.password[*].result) : var.master_password
 }
 
 resource "aws_security_group" "default" {
@@ -56,7 +58,7 @@ resource "aws_security_group_rule" "ingress_cidr_blocks" {
 }
 
 resource "random_password" "password" {
-  count   = local.enabled && local.create_password ? 1 : 0
+  count   = local.create_password ? 1 : 0
   length  = 16
   special = false
 }
@@ -65,7 +67,7 @@ resource "aws_docdb_cluster" "default" {
   count                           = local.enabled ? 1 : 0
   cluster_identifier              = module.this.id
   master_username                 = var.master_username
-  master_password                 = var.master_password != "" ? var.master_password : random_password.password[0].result
+  master_password                 = local.master_password
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
   preferred_maintenance_window    = var.preferred_maintenance_window
@@ -168,7 +170,7 @@ module "ssm_write_db_password" {
   parameter_write = [
     {
       name        = format("%s%s", var.ssm_parameter_path_prefix, module.this.id)
-      value       = var.master_password != "" ? var.master_password : random_password.password[0].result
+      value       = local.master_password
       type        = "SecureString"
       description = "Master password for ${module.this.id} DocumentDB cluster"
     }

@@ -95,7 +95,7 @@ variable "master_username" {
 
 variable "master_password" {
   type        = string
-  default     = ""
+  default     = null
   description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints"
 }
 
