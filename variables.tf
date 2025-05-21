@@ -239,3 +239,9 @@ variable "allow_major_version_upgrade" {
   description = "Specifies whether major version upgrades are allowed. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#allow_major_version_upgrade"
   default     = false
 }
+
+variable "sns_topic_arn" {
+  type        = string
+  description = "ARN of the SNS topic to send event notifications to"
+  default     = null
+}
