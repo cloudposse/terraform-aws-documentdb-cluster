@@ -80,6 +80,7 @@ resource "aws_docdb_cluster" "default" {
   kms_key_id                      = var.kms_key_id
   port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
+  manage_master_user_password     = var.manage_master_user_password
   vpc_security_group_ids          = concat([join("", aws_security_group.default[*].id)], var.external_security_group_id_list)
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default[*].name)
   db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default[*].name)
@@ -166,7 +167,7 @@ module "ssm_write_db_password" {
   source  = "cloudposse/ssm-parameter-store/aws"
   version = "0.13.0"
 
-  enabled = local.enabled && var.ssm_parameter_enabled == true ? true : false
+  enabled = local.enabled && var.ssm_parameter_enabled == true && var.manage_master_user_password != null ? true : false
   parameter_write = [
     {
       name        = format("%s%s", var.ssm_parameter_path_prefix, module.this.id)

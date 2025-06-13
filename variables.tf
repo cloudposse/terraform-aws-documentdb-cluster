@@ -239,3 +239,9 @@ variable "allow_major_version_upgrade" {
   description = "Specifies whether major version upgrades are allowed. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#allow_major_version_upgrade"
   default     = false
 }
+
+variable "manage_master_user_password" {
+  type        = bool
+  description = "Whether to manage the the master user password using AWS Secrets Manager. If set to `true`, the `master_password` variable must be set to `null`."
+  default     = null
+}
