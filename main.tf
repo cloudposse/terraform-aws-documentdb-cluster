@@ -170,7 +170,7 @@ module "ssm_write_db_password" {
   source  = "cloudposse/ssm-parameter-store/aws"
   version = "0.13.0"
 
-  enabled = local.enabled && var.ssm_parameter_enabled && !var.manage_master_user_password
+  enabled = local.enabled && var.ssm_parameter_enabled && var.manage_master_user_password != null
   parameter_write = [
     {
       name        = format("%s%s", var.ssm_parameter_path_prefix, module.this.id)
