@@ -244,4 +244,8 @@ variable "manage_master_user_password" {
   type        = bool
   description = "Whether to manage the master user password using AWS Secrets Manager. Cannot be set if `master_password` is set."
   default     = null
+  validation {
+    condition     = var.manage_master_user_password == null || var.master_password == null
+    error_message = "Error: `manage_master_user_password` cannot be set if `master_password` is set."
+  }
 }

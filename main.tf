@@ -1,6 +1,6 @@
 locals {
   enabled         = module.this.enabled
-  create_password = local.enabled && var.master_password == null && !var.manage_master_user_password
+  create_password = local.enabled && var.master_password == null && (var.manage_master_user_password == null || !var.manage_master_user_password)
   master_password = local.create_password ? one(random_password.password[*].result) : var.master_password
 }
 
