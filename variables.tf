@@ -99,6 +99,16 @@ variable "master_password" {
   description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints"
 }
 
+variable "manage_master_user_password" {
+  type        = bool
+  description = "Whether to manage the master user password using AWS Secrets Manager."
+  default     = null
+  validation {
+    condition     = var.manage_master_user_password || var.manage_master_user_password == null
+    error_message = "Error: `manage_master_user_password` must be set to `true` or `null`"
+  }
+}
+
 variable "retention_period" {
   type        = number
   default     = 5
@@ -240,12 +250,3 @@ variable "allow_major_version_upgrade" {
   default     = false
 }
 
-variable "manage_master_user_password" {
-  type        = bool
-  description = <<-EOT
-  Whether to manage the master user password using AWS Secrets Manager.
-  If set to true, `master_password` will be be ignored.
-  This parameter is given priority over `master_password`.
-  EOT
-  default     = false
-}
