@@ -242,6 +242,10 @@ variable "allow_major_version_upgrade" {
 
 variable "manage_master_user_password" {
   type        = bool
-  description = "Whether to manage the master user password using AWS Secrets Manager. Cannot be set if `master_password` is set."
-  default     = null
+  description = <<-EOT
+  Whether to manage the master user password using AWS Secrets Manager.
+  If set to true, `master_password` will be be ignored.
+  This parameter is given priority over `master_password`.
+  EOT
+  default     = false
 }

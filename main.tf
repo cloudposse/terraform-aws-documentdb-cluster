@@ -1,6 +1,6 @@
 locals {
   enabled         = module.this.enabled
-  create_password = local.enabled && var.master_password == null && (var.manage_master_user_password == null || !var.manage_master_user_password)
+  create_password = local.enabled && var.master_password == null && !var.manage_master_user_password
   master_password = local.create_password ? one(random_password.password[*].result) : var.master_password
 }
 
@@ -63,11 +63,12 @@ resource "random_password" "password" {
 }
 
 resource "aws_docdb_cluster" "default" {
-  count                           = local.enabled ? 1 : 0
-  cluster_identifier              = module.this.id
-  master_username                 = var.master_username
-  master_password                 = local.master_password
-  manage_master_user_password     = var.manage_master_user_password
+  count              = local.enabled ? 1 : 0
+  cluster_identifier = module.this.id
+  master_username    = var.master_username
+  # If `master_password` or `manage_master_user_password` is set, the other MUST be set to null, otherwise it will cause an error.
+  master_password                 = var.manage_master_user_password ? null : local.master_password
+  manage_master_user_password     = var.manage_master_user_password ? true : null
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
   preferred_maintenance_window    = var.preferred_maintenance_window
