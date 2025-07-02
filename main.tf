@@ -1,7 +1,9 @@
 locals {
   enabled         = module.this.enabled
-  create_password = local.enabled && var.master_password == null
-
+  create_password = local.enabled && var.master_password == null && var.manage_master_user_password == null
+  // If both `var.master_password` and `var.manage_master_user_password` are set to null, the module will create a random password
+  // else if `var.master_password` is set to null - master_password is set to null as `manage_master_user_password` is set to true
+  // else `local.master_password` is set to the value provided in `var.master_password`
   master_password = local.create_password ? one(random_password.password[*].result) : var.master_password
 }
 
@@ -64,10 +66,12 @@ resource "random_password" "password" {
 }
 
 resource "aws_docdb_cluster" "default" {
-  count                           = local.enabled ? 1 : 0
-  cluster_identifier              = module.this.id
-  master_username                 = var.master_username
+  count              = local.enabled ? 1 : 0
+  cluster_identifier = module.this.id
+  master_username    = var.master_username
+  # If `master_password` or `manage_master_user_password` is set, the other MUST be set to null, otherwise it will cause an error.
   master_password                 = local.master_password
+  manage_master_user_password     = var.manage_master_user_password
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
   preferred_maintenance_window    = var.preferred_maintenance_window
@@ -142,7 +146,7 @@ module "dns_master" {
   source  = "cloudposse/route53-cluster-hostname/aws"
   version = "0.13.0"
 
-  enabled  = local.enabled && var.zone_id != "" ? true : false
+  enabled  = local.enabled && var.zone_id != ""
   dns_name = local.cluster_dns_name
   zone_id  = var.zone_id
   records  = coalescelist(aws_docdb_cluster.default[*].endpoint, [""])
@@ -154,7 +158,7 @@ module "dns_replicas" {
   source  = "cloudposse/route53-cluster-hostname/aws"
   version = "0.13.0"
 
-  enabled  = local.enabled && var.zone_id != "" ? true : false
+  enabled  = local.enabled && var.zone_id != ""
   dns_name = local.replicas_dns_name
   zone_id  = var.zone_id
   records  = coalescelist(aws_docdb_cluster.default[*].reader_endpoint, [""])
@@ -166,7 +170,7 @@ module "ssm_write_db_password" {
   source  = "cloudposse/ssm-parameter-store/aws"
   version = "0.13.0"
 
-  enabled = local.enabled && var.ssm_parameter_enabled == true ? true : false
+  enabled = local.enabled && var.ssm_parameter_enabled && var.manage_master_user_password != null
   parameter_write = [
     {
       name        = format("%s%s", var.ssm_parameter_path_prefix, module.this.id)

@@ -99,6 +99,16 @@ variable "master_password" {
   description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints"
 }
 
+variable "manage_master_user_password" {
+  type        = bool
+  description = "Whether to manage the master user password using AWS Secrets Manager."
+  default     = null
+  validation {
+    condition     = var.manage_master_user_password == null || var.manage_master_user_password == true
+    error_message = "Error: `manage_master_user_password` must be set to `true` or `null`"
+  }
+}
+
 variable "retention_period" {
   type        = number
   default     = 5
@@ -239,3 +249,4 @@ variable "allow_major_version_upgrade" {
   description = "Specifies whether major version upgrades are allowed. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#allow_major_version_upgrade"
   default     = false
 }
+
