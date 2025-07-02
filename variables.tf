@@ -96,7 +96,7 @@ variable "master_username" {
 variable "master_password" {
   type        = string
   default     = null
-  description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints"
+  description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints. Cannot be specified if `manage_master_user_password` is set to `true`."
 }
 
 variable "manage_master_user_password" {
@@ -249,4 +249,3 @@ variable "allow_major_version_upgrade" {
   description = "Specifies whether major version upgrades are allowed. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#allow_major_version_upgrade"
   default     = false
 }
-
