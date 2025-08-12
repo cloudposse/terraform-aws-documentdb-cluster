@@ -101,12 +101,8 @@ variable "master_password" {
 
 variable "manage_master_user_password" {
   type        = bool
+  default     = false
   description = "Whether to manage the master user password using AWS Secrets Manager."
-  default     = null
-  validation {
-    condition     = var.manage_master_user_password == null || var.manage_master_user_password == true
-    error_message = "Error: `manage_master_user_password` must be set to `true` or `null`"
-  }
 }
 
 variable "retention_period" {
