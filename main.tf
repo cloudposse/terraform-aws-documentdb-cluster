@@ -69,7 +69,7 @@ resource "aws_docdb_cluster" "default" {
   cluster_identifier = module.this.id
   master_username    = var.master_username
   # If `master_password` or `manage_master_user_password` is set, the other MUST be set to null, otherwise it will cause an error.
-  master_password                 = var.manage_master_user_password ? null : local.master_password
+  master_password                 = var.manage_master_user_password != null ? null : local.master_password
   manage_master_user_password     = var.manage_master_user_password
   backup_retention_period         = var.retention_period
   preferred_backup_window         = var.preferred_backup_window
