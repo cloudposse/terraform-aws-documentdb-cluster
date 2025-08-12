@@ -1,7 +1,7 @@
 locals {
   enabled         = module.this.enabled
-  create_password = local.enabled && var.master_password == null && !var.manage_master_user_password
-  # If both `var.master_password` is null and `var.manage_master_user_password` is false, the module will create a random password
+  create_password = local.enabled && var.master_password == null && var.manage_master_user_password == null
+  # If both `var.master_password` is null and `var.manage_master_user_password` is null, the module will create a random password
   # else `local.master_password` is set to the value provided in `var.master_password`
   master_password = local.create_password ? one(random_password.password[*].result) : var.master_password
 }
