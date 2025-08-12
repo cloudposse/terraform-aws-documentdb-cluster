@@ -1,8 +1,9 @@
 locals {
   enabled         = module.this.enabled
   create_password = local.enabled && var.master_password == null && var.manage_master_user_password == null
-  # If both `var.master_password` is null and `var.manage_master_user_password` is null, the module will create a random password
-  # else `local.master_password` is set to the value provided in `var.master_password`
+  # 1. If manage_master_user_password is not null, AWS manages the password (master_password must be null)
+  # 2. If master_password is provided, that value is used (manage_master_user_password must be null)
+  # 3. If both are null, the module creates a random password
   master_password = local.create_password ? one(random_password.password[*].result) : var.master_password
 }
 
@@ -68,7 +69,8 @@ resource "aws_docdb_cluster" "default" {
   count              = local.enabled ? 1 : 0
   cluster_identifier = module.this.id
   master_username    = var.master_username
-  # If `master_password` or `manage_master_user_password` is set, the other MUST be set to null, otherwise it will cause an error.
+  # Set master_password OR manage_master_user_password, but not both (one must be null)
+  # manage_master_user_password=true enables AWS-managed passwords via Secrets Manager
   master_password                 = var.manage_master_user_password != null ? null : local.master_password
   manage_master_user_password     = var.manage_master_user_password
   backup_retention_period         = var.retention_period
