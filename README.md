@@ -199,7 +199,7 @@ module "documentdb_cluster" {
 | <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | Cluster Identifier |
 | <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | Endpoint of the DocumentDB cluster |
 | <a name="output_master_host"></a> [master\_host](#output\_master\_host) | DB master hostname |
-| <a name="output_master_password"></a> [master\_password](#output\_master\_password) | Password for the master DB user. If `manage_master_user_password` is set to true, this will be set to null. |
+| <a name="output_master_password"></a> [master\_password](#output\_master\_password) | Password for the master DB user. If `manage_master_user_password` is set to true, this will be set to null and the password is managed by AWS in Secrets Manager. |
 | <a name="output_master_username"></a> [master\_username](#output\_master\_username) | Username for the master DB user |
 | <a name="output_reader_endpoint"></a> [reader\_endpoint](#output\_reader\_endpoint) | A read-only endpoint of the DocumentDB cluster, automatically load-balanced across replicas |
 | <a name="output_replicas_host"></a> [replicas\_host](#output\_replicas\_host) | DB replicas hostname |
