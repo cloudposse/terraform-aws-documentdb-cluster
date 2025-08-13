@@ -4,8 +4,8 @@ output "master_username" {
 }
 
 output "master_password" {
-  value       = var.manage_master_user_password != null ? join("", aws_docdb_cluster.default[*].master_password) : null
-  description = "Password for the master DB user. If `manage_master_user_password` is set to true, this will be set to null."
+  value       = var.manage_master_user_password == true ? null : local.master_password
+  description = "Password for the master DB user. If `manage_master_user_password` is set to true, this will be set to null and the password is managed by AWS in Secrets Manager."
   sensitive   = true
 }
 
