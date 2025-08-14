@@ -93,6 +93,14 @@ resource "aws_docdb_cluster" "default" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   allow_major_version_upgrade     = var.allow_major_version_upgrade
   tags                            = module.this.tags
+
+  dynamic "serverless_v2_scaling_configuration" {
+    for_each = var.serverless_v2_scaling_configuration != null ? [1] : []
+    content {
+      min_capacity = var.serverless_v2_scaling_configuration.min_capacity
+      max_capacity = var.serverless_v2_scaling_configuration.max_capacity
+    }
+  }
 }
 
 resource "aws_docdb_cluster_instance" "default" {

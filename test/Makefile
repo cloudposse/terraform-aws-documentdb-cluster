@@ -31,13 +31,19 @@ clean:
 
 ## Run all tests
 all: module examples/complete
+all: module examples/serverless
 
 ## Run basic sanity checks against the module itself
 module: export TESTS ?= installed lint module-pinning provider-pinning validate terraform-docs input-descriptions output-descriptions
 module: deps
 	$(call RUN_TESTS, ../)
 
-## Run tests against example
+## Run tests against complete example
 examples/complete: export TESTS ?= installed lint validate
 examples/complete: deps
+	$(call RUN_TESTS, ../$@)
+
+## Run tests against serverless example
+examples/serverless: export TESTS ?= installed lint validate
+examples/serverless: deps
 	$(call RUN_TESTS, ../$@)
