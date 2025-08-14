@@ -29,9 +29,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/eks"
 )
 
-// Test the Terraform module in examples/complete using Terratest.
-func testRunner(t *testing.T, vars map[string]interface{}, testFunc func(t *testing.T, terraformOptions *terraform.Options, randID string, results string)) {
-	terraformFolderRelativeToRoot := "examples/complete"
+// Test the Terraform module in terraformFolderRelativeToRoot using Terratest.
+func testRunner(t *testing.T, vars map[string]interface{}, testFunc func(t *testing.T, terraformOptions *terraform.Options, randID string, results string), terraformFolderRelativeToRoot string) {
 	varFiles := []string{"fixtures.us-east-2.tfvars"}
 
 	terraformOptions := &terraform.Options{
