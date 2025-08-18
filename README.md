@@ -92,7 +92,7 @@ module "documentdb_cluster" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.29.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.8.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | >= 1.3 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 1.0 |
 
@@ -100,7 +100,7 @@ module "documentdb_cluster" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.29.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.8.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | >= 1.0 |
 
 ## Modules
@@ -177,6 +177,7 @@ module "documentdb_cluster" {
 | <a name="input_reader_dns_name"></a> [reader\_dns\_name](#input\_reader\_dns\_name) | Name of the reader endpoint CNAME record to create in the parent DNS zone specified by `zone_id`. If left empty, the name will be auto-asigned using the format `replicas.var.name` | `string` | `""` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Terraform regular expression (regex) string.<br/>Characters matching the regex will be removed from the ID elements.<br/>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_retention_period"></a> [retention\_period](#input\_retention\_period) | Number of days to retain backups for | `number` | `5` | no |
+| <a name="input_serverless_v2_scaling_configuration"></a> [serverless\_v2\_scaling\_configuration](#input\_serverless\_v2\_scaling\_configuration) | Configuration for serverless v2 scaling. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#serverless_v2_scaling_configuration | <pre>object({<br/>    min_capacity = optional(number, 0.5)<br/>    max_capacity = optional(number, 256)<br/>  })</pre> | `null` | no |
 | <a name="input_skip_final_snapshot"></a> [skip\_final\_snapshot](#input\_skip\_final\_snapshot) | Determines whether a final DB snapshot is created before the DB cluster is deleted | `bool` | `true` | no |
 | <a name="input_snapshot_identifier"></a> [snapshot\_identifier](#input\_snapshot\_identifier) | Specifies whether or not to create this cluster from a snapshot. You can use either the name or ARN when specifying a DB cluster snapshot, or the ARN when specifying a DB snapshot | `string` | `""` | no |
 | <a name="input_ssm_parameter_enabled"></a> [ssm\_parameter\_enabled](#input\_ssm\_parameter\_enabled) | Whether an SSM parameter store value is created to store the database password. | `bool` | `false` | no |
