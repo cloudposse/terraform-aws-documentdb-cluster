@@ -179,9 +179,9 @@ variable "ssm_parameter_enabled" {
 
 variable "serverless_v2_scaling_configuration" {
   type = object({
-      min_capacity = number
-      max_capacity = number
-    })
+    min_capacity = number
+    max_capacity = number
+  })
   default     = null
   description = "Configuration for serverless v2 scaling."
 }
