@@ -257,8 +257,4 @@ variable "serverless_v2_scaling_configuration" {
   })
   default     = null
   description = "Configuration for serverless v2 scaling. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#serverless_v2_scaling_configuration"
-  validation {
-    condition     = (var.serverless_v2_scaling_configuration != null && contains(["db.serverless"], var.instance_class)) || (var.serverless_v2_scaling_configuration == null && var.instance_class != "db.serverless")
-    error_message = "Error: when serverless_v2_scaling_configuration is set, instance_class must be set to 'db.serverless'"
-  }
 }

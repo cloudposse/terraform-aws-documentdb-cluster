@@ -101,6 +101,13 @@ resource "aws_docdb_cluster" "default" {
       max_capacity = var.serverless_v2_scaling_configuration.max_capacity
     }
   }
+
+  lifecycle {
+    precondition {
+      condition = (var.serverless_v2_scaling_configuration != null && contains(["db.serverless"], var.instance_class)) || (var.serverless_v2_scaling_configuration == null && var.instance_class != "db.serverless")
+      error_message = "Error: when serverless_v2_scaling_configuration is set, instance_class must be set to 'db.serverless'"
+    }
+  }
 }
 
 resource "aws_docdb_cluster_instance" "default" {
