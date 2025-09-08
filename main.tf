@@ -104,7 +104,7 @@ resource "aws_docdb_cluster" "default" {
 
   lifecycle {
     precondition {
-      condition = (var.serverless_v2_scaling_configuration != null && contains(["db.serverless"], var.instance_class)) || (var.serverless_v2_scaling_configuration == null && var.instance_class != "db.serverless")
+      condition     = (var.serverless_v2_scaling_configuration != null && contains(["db.serverless"], var.instance_class)) || (var.serverless_v2_scaling_configuration == null && var.instance_class != "db.serverless")
       error_message = "Error: when serverless_v2_scaling_configuration is set, instance_class must be set to 'db.serverless'"
     }
   }
