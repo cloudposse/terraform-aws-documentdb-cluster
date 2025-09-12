@@ -1,31 +1,22 @@
+variable "region" {
+  type        = string
+  description = "AWS Region for S3 bucket"
+}
+
+variable "availability_zones" {
+  type        = list(string)
+  description = "List of availability zones"
+}
+
+variable "vpc_cidr_block" {
+  type        = string
+  description = "VPC CIDR block"
+}
+
 variable "zone_id" {
   type        = string
   default     = ""
   description = "Route53 parent zone ID. If provided (not empty), the module will create sub-domain DNS records for the DocumentDB master and replicas"
-}
-
-variable "egress_from_port" {
-  type        = number
-  default     = 0
-  description = "[from_port]DocumentDB initial port range for egress (e.g. `0`)"
-}
-
-variable "egress_to_port" {
-  type        = number
-  default     = 0
-  description = "[to_port]DocumentDB initial port range for egress (e.g. `65535`)"
-}
-
-variable "egress_protocol" {
-  type        = string
-  default     = "-1"
-  description = "DocumentDB protocol for egress (e.g. `-1`, `tcp`)"
-}
-
-variable "allowed_egress_cidr_blocks" {
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-  description = "List of CIDR blocks to be allowed to send traffic outside of the DocumentDB cluster"
 }
 
 variable "allowed_security_groups" {
@@ -34,35 +25,12 @@ variable "allowed_security_groups" {
   description = "List of existing Security Groups to be allowed to connect to the DocumentDB cluster"
 }
 
-variable "allow_ingress_from_self" {
-  type        = bool
-  default     = false
-  description = "Adds the Document DB security group itself as a source for ingress rules. Useful when this security group will be shared with applications."
-}
-
 variable "allowed_cidr_blocks" {
   type        = list(string)
   default     = []
   description = "List of CIDR blocks to be allowed to connect to the DocumentDB cluster"
 }
 
-variable "external_security_group_id_list" {
-  type        = list(string)
-  default     = []
-  description = "List of external security group IDs to attach to the Document DB"
-}
-
-variable "vpc_id" {
-  type        = string
-  description = "VPC ID to create the cluster in (e.g. `vpc-a22222ee`)"
-}
-
-variable "subnet_ids" {
-  type        = list(string)
-  description = "List of VPC subnet IDs to place DocumentDB instances in"
-}
-
-# https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html#suported-instance-types
 variable "instance_class" {
   type        = string
   default     = "db.r4.large"
@@ -71,7 +39,7 @@ variable "instance_class" {
 
 variable "cluster_size" {
   type        = number
-  default     = 3
+  default     = 2
   description = "Number of DB instances to create in the cluster"
 }
 
@@ -95,18 +63,8 @@ variable "master_username" {
 
 variable "master_password" {
   type        = string
-  default     = null
+  default     = ""
   description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints"
-}
-
-variable "manage_master_user_password" {
-  type        = bool
-  description = "Whether to manage the master user password using AWS Secrets Manager."
-  default     = null
-  validation {
-    condition     = var.manage_master_user_password == null || var.manage_master_user_password == true
-    error_message = "Error: `manage_master_user_password` must be set to `true` or `null`"
-  }
 }
 
 variable "retention_period" {
@@ -184,12 +142,6 @@ variable "skip_final_snapshot" {
   default     = true
 }
 
-variable "deletion_protection" {
-  type        = bool
-  description = "A value that indicates whether the DB cluster has deletion protection enabled"
-  default     = false
-}
-
 variable "apply_immediately" {
   type        = bool
   description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window"
@@ -220,41 +172,16 @@ variable "reader_dns_name" {
   default     = ""
 }
 
-variable "enable_performance_insights" {
-  type        = bool
-  description = "Specifies whether to enable Performance Insights for the DB Instance."
-  default     = false
-}
-
-variable "ca_cert_identifier" {
-  type        = string
-  description = "The identifier of the CA certificate for the DB instance"
-  default     = null
-}
-
 variable "ssm_parameter_enabled" {
   type        = bool
-  default     = false
   description = "Whether an SSM parameter store value is created to store the database password."
-}
-
-variable "ssm_parameter_path_prefix" {
-  type        = string
-  default     = "/docdb/master-password/"
-  description = "The path prefix for the created SSM parameter e.g. '/docdb/master-password/dev'. `ssm_parameter_enabled` must be set to `true` for this to take affect."
-}
-
-variable "allow_major_version_upgrade" {
-  type        = bool
-  description = "Specifies whether major version upgrades are allowed. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#allow_major_version_upgrade"
-  default     = false
 }
 
 variable "serverless_v2_scaling_configuration" {
   type = object({
-    min_capacity = optional(number, 0.5)
-    max_capacity = optional(number, 256)
+    min_capacity = number
+    max_capacity = number
   })
   default     = null
-  description = "Configuration for serverless v2 scaling. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#serverless_v2_scaling_configuration"
+  description = "Configuration for serverless v2 scaling."
 }
