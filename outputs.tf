@@ -58,3 +58,8 @@ output "security_group_name" {
   description = "Name of the DocumentDB cluster Security Group"
   value       = join("", aws_security_group.default[*].name)
 }
+
+output "instance_class" {
+  description = "The instance class used by the DocumentDB Cluster. For more details, see https://docs.aws.amazon.com/documentdb/latest/developerguide/db-instance-classes.html#db-instance-class-specs"
+  value       = var.instance_class
+}
