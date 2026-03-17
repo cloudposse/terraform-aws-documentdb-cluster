@@ -127,6 +127,12 @@ variable "preferred_maintenance_window" {
   description = "The window to perform maintenance in. Syntax: `ddd:hh24:mi-ddd:hh24:mi`."
 }
 
+variable "copy_tags_to_snapshot" {
+  type        = bool
+  default     = false
+  description = "Copy all DB instance tags to snapshots."
+}
+
 variable "cluster_parameters" {
   type = list(object({
     apply_method = string

@@ -116,6 +116,7 @@ resource "aws_docdb_cluster_instance" "default" {
   cluster_identifier           = join("", aws_docdb_cluster.default[*].id)
   apply_immediately            = var.apply_immediately
   preferred_maintenance_window = var.preferred_maintenance_window
+  copy_tags_to_snapshot        = var.copy_tags_to_snapshot
   instance_class               = var.instance_class
   engine                       = var.engine
   auto_minor_version_upgrade   = var.auto_minor_version_upgrade
