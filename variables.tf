@@ -115,6 +115,12 @@ variable "retention_period" {
   description = "Number of days to retain backups for"
 }
 
+variable "parameter_group_name_suffix" {
+  type        = string
+  default     = ""
+  description = "Optional suffix for cluster parameter group name to support version upgrade"
+}
+
 variable "preferred_backup_window" {
   type        = string
   default     = "07:00-09:00"
