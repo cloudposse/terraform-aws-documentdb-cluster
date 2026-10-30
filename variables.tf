@@ -81,6 +81,39 @@ variable "snapshot_identifier" {
   description = "Specifies whether or not to create this cluster from a snapshot. You can use either the name or ARN when specifying a DB cluster snapshot, or the ARN when specifying a DB snapshot"
 }
 
+variable "restore_to_point_in_time" {
+  type = object({
+    source_cluster_identifier  = string
+    restore_type               = optional(string)
+    restore_to_time            = optional(string)
+    use_latest_restorable_time = optional(bool)
+  })
+  default     = null
+  description = <<-EOT
+    Restore the cluster to a point in time from an existing source cluster instead of creating an empty cluster. Cannot be used together with `snapshot_identifier`.
+    `source_cluster_identifier`: Identifier of the existing source DocumentDB cluster.
+    `restore_type`: Type of restore to perform, either `full-copy` or `copy-on-write`. Defaults to `full-copy` (AWS default).
+    `restore_to_time`: UTC date and time to restore to, in RFC3339 format (for example `2026-07-03T12:30:00Z`). Cannot be set together with `use_latest_restorable_time = true`.
+    `use_latest_restorable_time`: Set to `true` to restore to the latest restorable time.
+    See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#restore-to-point-in-time
+    EOT
+
+  validation {
+    condition     = var.restore_to_point_in_time == null || try(contains(["full-copy", "copy-on-write"], coalesce(var.restore_to_point_in_time.restore_type, "full-copy")), false)
+    error_message = "restore_to_point_in_time.restore_type must be either \"full-copy\" or \"copy-on-write\"."
+  }
+
+  validation {
+    condition     = var.restore_to_point_in_time == null || !(try(var.restore_to_point_in_time.restore_to_time, null) != null && try(var.restore_to_point_in_time.use_latest_restorable_time, false) == true)
+    error_message = "restore_to_point_in_time.restore_to_time cannot be set when use_latest_restorable_time is true."
+  }
+
+  validation {
+    condition     = var.restore_to_point_in_time == null || try(var.restore_to_point_in_time.restore_to_time, null) != null || try(var.restore_to_point_in_time.use_latest_restorable_time, false) == true
+    error_message = "restore_to_point_in_time requires either restore_to_time or use_latest_restorable_time = true."
+  }
+}
+
 variable "db_port" {
   type        = number
   default     = 27017
