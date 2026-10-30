@@ -84,7 +84,7 @@ resource "aws_docdb_cluster" "default" {
   storage_type                    = var.storage_type
   kms_key_id                      = var.kms_key_id
   port                            = var.db_port
-  snapshot_identifier             = var.snapshot_identifier
+  snapshot_identifier             = var.restore_to_point_in_time == null ? var.snapshot_identifier : null # the provider rejects any snapshot_identifier (even "") next to restore_to_point_in_time
   vpc_security_group_ids          = concat([join("", aws_security_group.default[*].id)], var.external_security_group_id_list)
   db_subnet_group_name            = join("", aws_docdb_subnet_group.default[*].name)
   db_cluster_parameter_group_name = join("", aws_docdb_cluster_parameter_group.default[*].name)
@@ -93,6 +93,16 @@ resource "aws_docdb_cluster" "default" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   allow_major_version_upgrade     = var.allow_major_version_upgrade
   tags                            = module.this.tags
+
+  dynamic "restore_to_point_in_time" {
+    for_each = var.restore_to_point_in_time != null ? [var.restore_to_point_in_time] : []
+    content {
+      source_cluster_identifier  = restore_to_point_in_time.value.source_cluster_identifier
+      restore_type               = restore_to_point_in_time.value.restore_type
+      restore_to_time            = restore_to_point_in_time.value.restore_to_time
+      use_latest_restorable_time = restore_to_point_in_time.value.use_latest_restorable_time
+    }
+  }
 
   dynamic "serverless_v2_scaling_configuration" {
     for_each = var.serverless_v2_scaling_configuration != null ? [1] : []
@@ -106,6 +116,10 @@ resource "aws_docdb_cluster" "default" {
     precondition {
       condition     = (var.serverless_v2_scaling_configuration != null && contains(["db.serverless"], var.instance_class)) || (var.serverless_v2_scaling_configuration == null && var.instance_class != "db.serverless")
       error_message = "Error: when serverless_v2_scaling_configuration is set, instance_class must be set to 'db.serverless'"
+    }
+    precondition {
+      condition     = var.restore_to_point_in_time == null || var.snapshot_identifier == null || var.snapshot_identifier == ""
+      error_message = "Error: snapshot_identifier and restore_to_point_in_time cannot both be set"
     }
   }
 }
