@@ -149,7 +149,7 @@ resource "aws_docdb_cluster_parameter_group" "default" {
     }
   }
   tags = module.this.tags
-  
+
   lifecycle {
     create_before_destroy = true
   }

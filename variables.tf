@@ -117,8 +117,9 @@ variable "retention_period" {
 
 variable "parameter_group_name_suffix" {
   type        = string
+  nullable    = false
   default     = ""
-  description = "Optional suffix for cluster parameter group name to support version upgrade"
+  description = "Suffix for the cluster parameter group name. Change it together with cluster_family to replace the group before an engine major upgrade"
 }
 
 variable "preferred_backup_window" {
