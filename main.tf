@@ -136,7 +136,7 @@ resource "aws_docdb_subnet_group" "default" {
 # https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html
 resource "aws_docdb_cluster_parameter_group" "default" {
   count       = local.enabled ? 1 : 0
-  name        = var.parameter_group_name_suffix == "" ? module.this.id : "${module.this.id}-${var.parameter_group_name_suffix}"
+  name        = module.parameter_group_label.id
   description = "DB cluster parameter group"
   family      = var.cluster_family
 
@@ -201,4 +201,12 @@ module "ssm_write_db_password" {
   ]
 
   context = module.this.context
+}
+
+module "parameter_group_label" {
+  source  = "cloudposse/label/null"
+  version = "0.25.0"
+
+  attributes = [var.parameter_group_name_suffix]
+  context    = module.this.context
 }
