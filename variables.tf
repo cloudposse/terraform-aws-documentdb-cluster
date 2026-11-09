@@ -115,6 +115,13 @@ variable "retention_period" {
   description = "Number of days to retain backups for"
 }
 
+variable "parameter_group_name_suffix" {
+  type        = string
+  nullable    = false
+  default     = ""
+  description = "Suffix for the cluster parameter group name. Change it together with cluster_family to replace the group before an engine major upgrade"
+}
+
 variable "preferred_backup_window" {
   type        = string
   default     = "07:00-09:00"
