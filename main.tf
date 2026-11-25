@@ -26,6 +26,18 @@ resource "aws_security_group_rule" "egress" {
   security_group_id = join("", aws_security_group.default[*].id)
 }
 
+resource "aws_security_group_rule" "egress_ipv6" {
+  count = local.enabled && var.network_type == "DUAL" && length(var.allowed_egress_ipv6_cidr_blocks) > 0 ? 1 : 0
+
+  type              = "egress"
+  description       = "Allow outbound traffic from IPv6 CIDR blocks"
+  from_port         = var.egress_from_port
+  to_port           = var.egress_to_port
+  protocol          = var.egress_protocol
+  ipv6_cidr_blocks  = var.allowed_egress_ipv6_cidr_blocks
+  security_group_id = join("", aws_security_group.default[*].id)
+}
+
 resource "aws_security_group_rule" "allow_ingress_from_self" {
   count             = local.enabled && var.allow_ingress_from_self ? 1 : 0
   type              = "ingress"
@@ -83,6 +95,7 @@ resource "aws_docdb_cluster" "default" {
   storage_encrypted               = var.storage_encrypted
   storage_type                    = var.storage_type
   kms_key_id                      = var.kms_key_id
+  network_type                    = var.network_type
   port                            = var.db_port
   snapshot_identifier             = var.snapshot_identifier
   vpc_security_group_ids          = concat([join("", aws_security_group.default[*].id)], var.external_security_group_id_list)

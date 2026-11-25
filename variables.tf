@@ -264,3 +264,20 @@ variable "serverless_v2_scaling_configuration" {
   default     = null
   description = "Configuration for serverless v2 scaling. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#serverless_v2_scaling_configuration"
 }
+
+variable "network_type" {
+  type        = string
+  description = "Network type: IPV4 or DUAL"
+  default     = "IPV4"
+
+  validation {
+    condition     = contains(["IPV4", "DUAL"], var.network_type)
+    error_message = "Network type must be IPV4 or DUAL."
+  }
+}
+
+variable "allowed_egress_ipv6_cidr_blocks" {
+  type        = list(string)
+  description = "List of IPv6 CIDR blocks to be allowed to send traffic outside of the DocumentDB cluster"
+  default     = ["::/0"]
+}
